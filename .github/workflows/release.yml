@@ -9,7 +9,6 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions:
-      contents: read
       id-token: write
 
     steps:
@@ -23,6 +22,10 @@ jobs:
         with:
           node-version: "22"
 
+      # Trusted publishing requires npm >= 11.5.1
+      - name: Upgrade npm
+        run: npm install -g npm@latest
+
       - name: Install dependencies
         run: bun install
 
@@ -35,13 +38,8 @@ jobs:
       - name: Build
         run: bun run build
 
-      # Trusted Publishers (OIDC) — no NPM_TOKEN needed.
-      # npmjs.com → ai-media-cli → Settings → Trusted Publishers
+      # npm Trusted Publishers (OIDC) — no tokens needed.
+      # Setup: npmjs.com → ai-media-cli → Settings → Trusted Publishers
       #   → Owner: sebyx07, Repo: js-ai-image-cli, Workflow: release.yml
-      #
-      # Remove any .npmrc that setup-node may have created so npm
-      # falls through to OIDC provenance auth instead of empty token auth.
       - name: Publish to npm
-        run: |
-          rm -f ~/.npmrc .npmrc
-          npm publish --access public --provenance --registry https://registry.npmjs.org
+        run: npm publish --provenance --access public
