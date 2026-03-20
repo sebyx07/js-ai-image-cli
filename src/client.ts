@@ -19,18 +19,28 @@ const DEFAULT_BASE_URL = "https://api.kubeez.com";
 const MAX_RETRIES = 3;
 const RETRY_DELAY_MS = 1000;
 
+const LIB_VERSION = "0.1.0";
+
 export class AIImageClient {
   private apiKey: string;
   private baseUrl: string;
+  private defaultHeaders: Record<string, string>;
 
   constructor(options: ClientOptions) {
     this.apiKey = options.apiKey;
     this.baseUrl = (options.baseUrl || DEFAULT_BASE_URL).replace(/\/$/, "");
+    this.defaultHeaders = {
+      "User-Agent": `ai-image-cli/${LIB_VERSION}`,
+      "X-Client": "ai-image-cli",
+      "X-Client-Version": LIB_VERSION,
+      ...(options.headers || {}),
+    };
   }
 
   private async request<T>(endpoint: string, options: RequestInit = {}, retries = MAX_RETRIES): Promise<T> {
     const url = `${this.baseUrl}${endpoint}`;
     const headers: Record<string, string> = {
+      ...this.defaultHeaders,
       "X-API-Key": this.apiKey,
       ...(options.headers as Record<string, string>),
     };

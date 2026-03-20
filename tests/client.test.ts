@@ -36,6 +36,47 @@ describe("AIImageClient", () => {
     expect(client).toBeDefined();
   });
 
+  it("should send default headers (User-Agent, X-Client)", async () => {
+    const mockData = { models: [] };
+    globalThis.fetch = mockFetchResponse(mockData) as unknown as typeof fetch;
+
+    const client = new AIImageClient({ apiKey: TEST_API_KEY });
+    await client.getModels();
+
+    expect(globalThis.fetch).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.objectContaining({
+        headers: expect.objectContaining({
+          "User-Agent": expect.stringContaining("ai-image-cli/"),
+          "X-Client": "ai-image-cli",
+          "X-Client-Version": expect.any(String),
+        }),
+      }),
+    );
+  });
+
+  it("should merge custom headers from constructor", async () => {
+    const mockData = { models: [] };
+    globalThis.fetch = mockFetchResponse(mockData) as unknown as typeof fetch;
+
+    const client = new AIImageClient({
+      apiKey: TEST_API_KEY,
+      headers: { "X-Custom": "my-app", "X-Request-Id": "abc-123" },
+    });
+    await client.getModels();
+
+    expect(globalThis.fetch).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.objectContaining({
+        headers: expect.objectContaining({
+          "X-Custom": "my-app",
+          "X-Request-Id": "abc-123",
+          "X-API-Key": TEST_API_KEY,
+        }),
+      }),
+    );
+  });
+
   describe("getModels", () => {
     it("should fetch models without filter", async () => {
       const mockData = { models: [{ model_id: "model-1", display_name: "Test Model", model_type: "image" }] };
