@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 
 import { Command } from "commander";
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { version: CLI_VERSION } = require("../../package.json");
 import { registerAdCopyCommand } from "../commands/adcopy";
 import { registerBalanceCommand } from "../commands/balance";
 import { registerDialogueCommand } from "../commands/dialogue";
@@ -17,7 +19,7 @@ const program = new Command();
 program
   .name("ai-image")
   .description("Generate AI images, videos, music & speech from your terminal — powered by Kubeez (https://kubeez.com)")
-  .version("2.0.4");
+  .version(CLI_VERSION || "unknown");
 
 registerLoginCommand(program);
 registerModelsCommand(program);

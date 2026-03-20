@@ -5,7 +5,7 @@ Complete reference for all `ai-image` commands.
 ## Setup
 
 ```bash
-# Option 1: Login command (saves to ~/.ai-media-cli)
+# Option 1: Login command (saves to ~/.ai-image-cli)
 ai-image login YOUR_API_KEY
 
 # Option 2: Environment variable
@@ -24,7 +24,7 @@ Get your key at [kubeez.com](https://kubeez.com) or [dev.kubeez.com/settings/api
 ai-image login <api-key>
 ```
 
-Save your API key to `~/.ai-media-cli/config.json` (file permissions: `600`).
+Save your API key to `~/.ai-image-cli/config.json` (file permissions: `600`).
 
 ### `logout`
 

@@ -263,6 +263,101 @@ describe("AIImageClient", () => {
     });
   });
 
+  describe("retry logic", () => {
+    it("should retry on 500 and eventually succeed", async () => {
+      let callCount = 0;
+      globalThis.fetch = mock(() => {
+        callCount++;
+        if (callCount === 1) {
+          return Promise.resolve({
+            ok: false,
+            status: 500,
+            json: () => Promise.resolve({ detail: "Server error" }),
+            text: () => Promise.resolve('{"detail":"Server error"}'),
+          });
+        }
+        return Promise.resolve({
+          ok: true,
+          status: 200,
+          json: () => Promise.resolve({ models: [] }),
+          text: () => Promise.resolve('{"models":[]}'),
+        });
+      }) as unknown as typeof fetch;
+
+      const client = new AIImageClient({ apiKey: TEST_API_KEY });
+      const result = await client.getModels();
+
+      expect(result).toEqual({ models: [] });
+      expect(callCount).toBe(2);
+    });
+
+    it("should retry on 429 rate limit and eventually succeed", async () => {
+      let callCount = 0;
+      globalThis.fetch = mock(() => {
+        callCount++;
+        if (callCount === 1) {
+          return Promise.resolve({
+            ok: false,
+            status: 429,
+            json: () => Promise.resolve({ detail: "Rate limited" }),
+            text: () => Promise.resolve('{"detail":"Rate limited"}'),
+          });
+        }
+        return Promise.resolve({
+          ok: true,
+          status: 200,
+          json: () => Promise.resolve({ models: [] }),
+          text: () => Promise.resolve('{"models":[]}'),
+        });
+      }) as unknown as typeof fetch;
+
+      const client = new AIImageClient({ apiKey: TEST_API_KEY });
+      const result = await client.getModels();
+
+      expect(result).toEqual({ models: [] });
+      expect(callCount).toBe(2);
+    });
+
+    it("should throw immediately on 401 without retrying", async () => {
+      let callCount = 0;
+      globalThis.fetch = mock(() => {
+        callCount++;
+        return Promise.resolve({
+          ok: false,
+          status: 401,
+          json: () => Promise.resolve({ detail: "Unauthorized" }),
+          text: () => Promise.resolve('{"detail":"Unauthorized"}'),
+        });
+      }) as unknown as typeof fetch;
+
+      const client = new AIImageClient({ apiKey: "bad-key" });
+      await expect(client.getModels()).rejects.toThrow();
+      expect(callCount).toBe(1);
+    });
+
+    it("should retry on network error (TypeError) and eventually succeed", async () => {
+      let callCount = 0;
+      globalThis.fetch = mock(() => {
+        callCount++;
+        if (callCount === 1) {
+          return Promise.reject(new TypeError("Failed to fetch"));
+        }
+        return Promise.resolve({
+          ok: true,
+          status: 200,
+          json: () => Promise.resolve({ models: [] }),
+          text: () => Promise.resolve('{"models":[]}'),
+        });
+      }) as unknown as typeof fetch;
+
+      const client = new AIImageClient({ apiKey: TEST_API_KEY });
+      const result = await client.getModels();
+
+      expect(result).toEqual({ models: [] });
+      expect(callCount).toBe(2);
+    });
+  });
+
   describe("pollForCompletion", () => {
     it("should return immediately if already completed", async () => {
       const mockData = { id: "gen-123", status: "completed", outputs: [{ url: "https://example.com/image.png" }] };
@@ -292,6 +387,48 @@ describe("AIImageClient", () => {
       const result = await client.pollForCompletion("music-123", "music", 10, 3);
 
       expect(result.status).toBe("completed");
+    });
+  });
+
+  describe("pollForCompletion transitions", () => {
+    it("should poll through pending -> processing -> completed", async () => {
+      let callCount = 0;
+      const responses = [
+        { id: "gen-456", status: "pending" },
+        { id: "gen-456", status: "processing" },
+        { id: "gen-456", status: "completed", outputs: [{ url: "https://example.com/done.png" }] },
+      ];
+      globalThis.fetch = mock(() => {
+        const data = responses[callCount] || responses[responses.length - 1];
+        callCount++;
+        return Promise.resolve({
+          ok: true,
+          status: 200,
+          json: () => Promise.resolve(data),
+          text: () => Promise.resolve(JSON.stringify(data)),
+        });
+      }) as unknown as typeof fetch;
+
+      const client = new AIImageClient({ apiKey: TEST_API_KEY });
+      const result = await client.pollForCompletion("gen-456", "media", 10, 10);
+
+      expect(result.status).toBe("completed");
+      expect(callCount).toBe(3);
+    });
+
+    it("should throw TimeoutError when maxAttempts exceeded", async () => {
+      const pendingData = { id: "gen-timeout", status: "pending" };
+      globalThis.fetch = mock(() =>
+        Promise.resolve({
+          ok: true,
+          status: 200,
+          json: () => Promise.resolve(pendingData),
+          text: () => Promise.resolve(JSON.stringify(pendingData)),
+        }),
+      ) as unknown as typeof fetch;
+
+      const client = new AIImageClient({ apiKey: TEST_API_KEY });
+      await expect(client.pollForCompletion("gen-timeout", "media", 10, 2)).rejects.toThrow("did not complete");
     });
   });
 });

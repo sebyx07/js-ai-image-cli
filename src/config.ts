@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
+import { ConfigError } from "./errors";
 
 const CONFIG_DIR = path.join(os.homedir(), ".ai-image-cli");
 const CONFIG_FILE = path.join(CONFIG_DIR, "config.json");
@@ -53,5 +54,5 @@ export function getApiKey(): string {
   console.error("  export AI_IMAGE_API_KEY=your_api_key");
   console.error("");
   console.error("Get your API key at: https://kubeez.com");
-  process.exit(1);
+  throw new ConfigError("No API key found");
 }

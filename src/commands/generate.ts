@@ -1,5 +1,6 @@
 import type { Command } from "commander";
 import { createClient, printResult } from "../helpers";
+import type { GenerateMediaRequest } from "../types";
 
 export function registerGenerateCommand(program: Command): void {
   program
@@ -12,26 +13,29 @@ export function registerGenerateCommand(program: Command): void {
     .option("-a, --aspect-ratio <ratio>", "Aspect ratio", "1:1")
     .option("-d, --duration <duration>", "Duration (for video)")
     .option("-q, --quality <quality>", "Quality setting")
-    .option("-s, --seed <seed>", "Seed for reproducibility", "0")
+    .option("-s, --seed <seed>", "Seed for reproducibility")
     .option("--sound", "Enable sound (for video)", false)
     .option("--fixed-lens", "Fixed lens mode", false)
     .option("--source-urls <urls...>", "Source media URLs")
     .option("-w, --wait", "Wait for generation to complete", false)
     .action(async (options: Record<string, any>) => {
       const client = createClient();
-      const result = await client.generateMedia({
+      const req: GenerateMediaRequest = {
         prompt: options.prompt,
         model: options.model,
         generation_type: options.type,
         negative_prompt: options.negativePrompt,
         aspect_ratio: options.aspectRatio,
-        duration: options.duration || "",
+        duration: options.duration || undefined,
         quality: options.quality || null,
-        seed: Number.parseInt(options.seed, 10),
         sound: options.sound,
         fixed_lens: options.fixedLens,
         source_media_urls: options.sourceUrls || null,
-      });
+      };
+      if (options.seed !== undefined) {
+        req.seed = Number.parseInt(options.seed, 10);
+      }
+      const result = await client.generateMedia(req);
 
       const genId = result.generation_id;
       if (options.wait && genId) {

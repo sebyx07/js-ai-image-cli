@@ -13,6 +13,7 @@ export type {
   BalanceResponse,
   UploadResponse,
   GenerationsListParams,
+  GenerationsListResponse,
   ModelsResponse,
   Model,
 } from "./types";

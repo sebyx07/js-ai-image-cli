@@ -119,3 +119,7 @@ export interface GenerationsListParams {
   model?: string;
   generation_type?: string;
 }
+
+export interface GenerationsListResponse {
+  generations: GenerationStatus[];
+}

@@ -9,6 +9,7 @@ export function registerDialogueCommand(program: Command): void {
     .requiredOption("-d, --dialogue <json>", 'Dialogue as JSON array, e.g. \'[{"text":"Hello","voice":"Adam"}]\'')
     .option("-s, --stability <number>", "Voice stability (0-1)", "0.5")
     .option("-l, --language <code>", "Language code", "auto")
+    .option("-w, --wait", "Wait for generation to complete", false)
     .action(async (options: Record<string, any>) => {
       let dialogue: DialogueLine[];
       try {
@@ -24,6 +25,15 @@ export function registerDialogueCommand(program: Command): void {
         stability: Number.parseFloat(options.stability),
         language_code: options.language,
       });
-      printResult(result);
+
+      const genId = result.generation_id;
+      if (options.wait && genId) {
+        console.log(`Dialogue generation started: ${genId}`);
+        console.log("Waiting for completion...");
+        const final = await client.pollForCompletion(genId, "media");
+        printResult(final);
+      } else {
+        printResult(result);
+      }
     });
 }

@@ -1,4 +1,4 @@
-import fs from "node:fs";
+import fs from "node:fs/promises";
 import path from "node:path";
 import { APIError, TimeoutError } from "./errors";
 import type {
@@ -11,6 +11,7 @@ import type {
   GenerateResponse,
   GenerationStatus,
   GenerationsListParams,
+  GenerationsListResponse,
   ModelsResponse,
   UploadResponse,
 } from "./types";
@@ -19,7 +20,8 @@ const DEFAULT_BASE_URL = "https://api.kubeez.com";
 const MAX_RETRIES = 3;
 const RETRY_DELAY_MS = 1000;
 
-const LIB_VERSION = "2.0.4";
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const LIB_VERSION: string = require("../package.json").version || "unknown";
 
 export class AIImageClient {
   private apiKey: string;
@@ -101,7 +103,7 @@ export class AIImageClient {
   }
 
   async uploadMedia(filePath: string, bucket?: string): Promise<UploadResponse> {
-    const fileBuffer = fs.readFileSync(filePath);
+    const fileBuffer = await fs.readFile(filePath);
     const fileName = path.basename(filePath);
 
     const formData = new FormData();
@@ -143,13 +145,13 @@ export class AIImageClient {
     return this.request<BalanceResponse>("/v1/balance");
   }
 
-  async getGenerations(params?: GenerationsListParams): Promise<unknown> {
+  async getGenerations(params?: GenerationsListParams): Promise<GenerationsListResponse> {
     const searchParams = new URLSearchParams();
     if (params?.status) searchParams.set("status", params.status);
     if (params?.model) searchParams.set("model", params.model);
     if (params?.generation_type) searchParams.set("generation_type", params.generation_type);
     const qs = searchParams.toString();
-    return this.request(`/v1/generations${qs ? `?${qs}` : ""}`);
+    return this.request<GenerationsListResponse>(`/v1/generations${qs ? `?${qs}` : ""}`);
   }
 
   async healthCheck(): Promise<unknown> {

@@ -1,9 +1,16 @@
 {
   "name": "ai-media-cli",
-  "version": "2.0.4",
+  "version": "2.1.0",
   "description": "The easiest way to generate AI images, videos, music & speech from JavaScript/TypeScript — as a CLI, npx command, or library.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.js",
+      "import": "./dist/index.js"
+    }
+  },
   "bin": {
     "ai-image": "dist/bin/cli.js"
   },
@@ -22,21 +29,33 @@
   },
   "keywords": [
     "ai",
+    "ai-image-generator",
+    "ai-video-generator",
+    "ai-art",
+    "generative-ai",
     "image-generation",
     "video-generation",
     "music-generation",
-    "text-to-speech",
     "text-to-image",
     "text-to-video",
-    "ai-art",
-    "generative-ai",
-    "cli",
-    "kubeez",
+    "text-to-speech",
+    "text-to-music",
+    "image-to-video",
+    "image-to-image",
+    "flux",
     "stable-diffusion",
     "midjourney",
-    "dalle"
+    "dalle",
+    "openai",
+    "google-imagen",
+    "suno",
+    "cli",
+    "sdk",
+    "api-client",
+    "npx",
+    "kubeez"
   ],
-  "author": "",
+  "author": "sebyx07",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -49,14 +68,14 @@
   "engines": {
     "node": ">=18.0.0"
   },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
   "devDependencies": {
     "@biomejs/biome": "^1.9.0",
     "@types/bun": "latest",
     "typescript": "^5.6.0"
-  },
-  "publishConfig": {
-    "access": "public",
-    "provenance": true
   },
   "dependencies": {
     "commander": "^14.0.3"

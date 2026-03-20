@@ -33,7 +33,8 @@ export function registerLoginCommand(program: Command): void {
       let apiKey: string;
       try {
         apiKey = getApiKey();
-      } catch {
+      } catch (error) {
+        console.error(error instanceof Error ? error.message : String(error));
         return;
       }
 

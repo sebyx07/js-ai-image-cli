@@ -29,13 +29,13 @@ bun install -g ai-media-cli
 ai-image login YOUR_API_KEY
 ```
 
-Your key is saved securely to `~/.ai-media-cli/config.json` with `600` file permissions. You only need to do this once.
+Your key is saved securely to `~/.ai-image-cli/config.json` with `600` file permissions. You only need to do this once.
 
 Verify it works:
 
 ```bash
 ai-image whoami
-# API Key: sk_live_...xxxx (from ~/.ai-media-cli/config.json)
+# API Key: sk_live_...xxxx (from ~/.ai-image-cli/config.json)
 # Credits: 100
 ```
 

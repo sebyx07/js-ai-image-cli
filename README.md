@@ -16,6 +16,8 @@
 <p align="center">
   <a href="https://github.com/sebyx07/js-ai-image-cli/actions/workflows/ci.yml"><img src="https://github.com/sebyx07/js-ai-image-cli/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
   <a href="https://www.npmjs.com/package/ai-media-cli"><img src="https://img.shields.io/npm/v/ai-media-cli.svg" alt="npm" /></a>
+  <a href="https://www.npmjs.com/package/ai-media-cli"><img src="https://img.shields.io/npm/dm/ai-media-cli.svg" alt="npm downloads" /></a>
+  <a href="https://www.npmjs.com/package/ai-media-cli"><img src="https://img.shields.io/npm/types/ai-media-cli.svg" alt="TypeScript" /></a>
   <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT" /></a>
 </p>
 
@@ -110,7 +112,7 @@ console.log(result.outputs?.[0]?.url);
 ai-image login YOUR_API_KEY
 ```
 
-Saves to `~/.ai-media-cli/config.json` with `600` permissions. One-time setup.
+Saves to `~/.ai-image-cli/config.json` with `600` permissions. One-time setup.
 
 ```bash
 ai-image whoami     # show masked key + balance
@@ -133,7 +135,7 @@ Environment variable always takes priority over the config file.
 
 | Command | Description |
 |---------|-------------|
-| `ai-image login <key>` | Save API key to ~/.ai-media-cli |
+| `ai-image login <key>` | Save API key to ~/.ai-image-cli |
 | `ai-image logout` | Remove saved key |
 | `ai-image whoami` | Show masked key and balance |
 

@@ -11,6 +11,7 @@ export function registerAdCopyCommand(program: Command): void {
     .option("-l, --language <lang>", "Language code", "en")
     .option("-v, --variants <count>", "Number of variants", "1")
     .option("-a, --aspect-ratio <ratio>", "Aspect ratio", "9:16")
+    .option("-w, --wait", "Wait for generation to complete", false)
     .action(async (options: Record<string, any>) => {
       const client = createClient();
       const result = await client.generateAdCopy({
@@ -21,6 +22,15 @@ export function registerAdCopyCommand(program: Command): void {
         variant_count: Number.parseInt(options.variants, 10),
         aspect_ratio: options.aspectRatio,
       });
-      printResult(result);
+
+      const genId = result.generation_id;
+      if (options.wait && genId) {
+        console.log(`Ad copy generation started: ${genId}`);
+        console.log("Waiting for completion...");
+        const final = await client.pollForCompletion(genId, "media");
+        printResult(final);
+      } else {
+        printResult(result);
+      }
     });
 }
