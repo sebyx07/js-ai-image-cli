@@ -17,7 +17,7 @@ const program = new Command();
 program
   .name("ai-image")
   .description("Generate AI images, videos, music & speech from your terminal — powered by Kubeez (https://kubeez.com)")
-  .version("2.0.2");
+  .version("2.0.3");
 
 registerLoginCommand(program);
 registerModelsCommand(program);
