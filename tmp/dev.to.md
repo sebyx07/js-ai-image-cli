@@ -3,8 +3,9 @@ title: "Generate AI Images, Videos, Music & Speech from Your Terminal — One np
 published: false
 description: "Meet ai-media-cli: a single CLI tool and TypeScript library that generates images, videos, music, and speech using 40+ AI models from OpenAI, Google, Flux, Kling, Suno and more."
 tags: ai, javascript, typescript, opensource
-canonical_url:
-cover_image:
+cover_image: https://tempfile.aiquickdraw.com/images/1774006581555-6cw3p7g4krv.png
+# Use a ratio of 100:42 for best results.
+# published_at: 2026-03-20 11:35 +0000
 ---
 
 # Generate AI Images, Videos, Music & Speech from Your Terminal — One npm Package
