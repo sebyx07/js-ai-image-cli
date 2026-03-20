@@ -67,7 +67,6 @@ export class AIImageClient {
         if (attempt < retries) {
           const delay = RETRY_DELAY_MS * 2 ** attempt;
           await new Promise((resolve) => setTimeout(resolve, delay));
-          continue;
         }
       }
     }
