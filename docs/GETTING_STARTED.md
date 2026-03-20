@@ -26,7 +26,7 @@ bun install -g ai-media-cli
 ## 3. Authenticate
 
 ```bash
-ai-image login YOUR_API_KEY
+ai-media-cli login YOUR_API_KEY
 ```
 
 Your key is saved securely to `~/.ai-image-cli/config.json` with `600` file permissions. You only need to do this once.
@@ -34,7 +34,7 @@ Your key is saved securely to `~/.ai-image-cli/config.json` with `600` file perm
 Verify it works:
 
 ```bash
-ai-image whoami
+ai-media-cli whoami
 # API Key: sk_live_...xxxx (from ~/.ai-image-cli/config.json)
 # Credits: 100
 ```
@@ -43,12 +43,12 @@ ai-image whoami
 
 ```bash
 # See all models in a nice table
-ai-image models
+ai-media-cli models
 
 # Filter by type
-ai-image models --type image
-ai-image models --type video
-ai-image models --type music
+ai-media-cli models --type image
+ai-media-cli models --type video
+ai-media-cli models --type music
 ```
 
 This shows model names, providers, costs (in credits), and estimated generation times.
@@ -56,7 +56,7 @@ This shows model names, providers, costs (in credits), and estimated generation 
 ## 5. Generate Your First Image
 
 ```bash
-ai-image generate \
+ai-media-cli generate \
   -p "a cozy coffee shop on a rainy day, warm lighting, watercolor style" \
   -m nano-banana-2 \
   --wait
@@ -67,13 +67,13 @@ The `--wait` flag polls until the generation completes and prints the result wit
 Without `--wait`, you get the generation ID immediately and can check status later:
 
 ```bash
-ai-image generate -p "a sunset over the ocean" -m nano-banana-2
+ai-media-cli generate -p "a sunset over the ocean" -m nano-banana-2
 # Returns: { "generation_id": "abc-123", ... }
 
-ai-image status -i abc-123
+ai-media-cli status -i abc-123
 # Returns current status
 
-ai-image status -i abc-123 --wait
+ai-media-cli status -i abc-123 --wait
 # Polls until done
 ```
 
@@ -82,7 +82,7 @@ ai-image status -i abc-123 --wait
 ### Video
 
 ```bash
-ai-image generate \
+ai-media-cli generate \
   -p "ocean waves crashing on a rocky coast" \
   -m kling-v2 \
   --type text-to-video \
@@ -94,7 +94,7 @@ ai-image generate \
 ### Music
 
 ```bash
-ai-image music \
+ai-media-cli music \
   -p "upbeat lo-fi hip hop beat, relaxing, study music" \
   --instrumental \
   --wait
@@ -103,7 +103,7 @@ ai-image music \
 ### Text-to-Speech
 
 ```bash
-ai-image dialogue -d '[
+ai-media-cli dialogue -d '[
   {"text": "Hey, welcome to the show!", "voice": "Adam"},
   {"text": "Thanks for having me!", "voice": "Emily"}
 ]'
@@ -113,10 +113,10 @@ ai-image dialogue -d '[
 
 ```bash
 # Upload your source image
-ai-image upload -f ./my-photo.jpg
+ai-media-cli upload -f ./my-photo.jpg
 
 # Use the returned URL to transform it
-ai-image generate \
+ai-media-cli generate \
   -p "turn this into an oil painting" \
   -m 5-lite-image-to-image \
   --type image-to-image \
@@ -127,14 +127,14 @@ ai-image generate \
 ## 7. Check Your Balance
 
 ```bash
-ai-image balance
+ai-media-cli balance
 ```
 
 Need more credits? Visit [kubeez.com/pricing](https://kubeez.com/pricing).
 
 ## Next Steps
 
-- See all commands: `ai-image --help`
+- See all commands: `ai-media-cli --help`
 - Full CLI reference: [docs/CLI_REFERENCE.md](./CLI_REFERENCE.md)
 - Use as a library: [docs/LIBRARY_USAGE.md](./LIBRARY_USAGE.md)
 - API docs: [api.kubeez.com/docs](https://api.kubeez.com/docs)

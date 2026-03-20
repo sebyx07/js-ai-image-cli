@@ -10,7 +10,7 @@ export function registerLoginCommand(program: Command): void {
       config.apiKey = apiKey;
       saveConfig(config);
       console.log(`API key saved to ${getConfigDir()}/config.json`);
-      console.log("You can now use ai-image commands without setting an environment variable.");
+      console.log("You can now use ai-media-cli commands without setting an environment variable.");
     });
 
   program

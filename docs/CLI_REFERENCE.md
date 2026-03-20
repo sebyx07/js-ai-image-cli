@@ -1,12 +1,12 @@
 # CLI Reference
 
-Complete reference for all `ai-image` commands.
+Complete reference for all `ai-media-cli` commands.
 
 ## Setup
 
 ```bash
 # Option 1: Login command (saves to ~/.ai-image-cli)
-ai-image login YOUR_API_KEY
+ai-media-cli login YOUR_API_KEY
 
 # Option 2: Environment variable
 export AI_IMAGE_API_KEY=your_api_key_here
@@ -21,7 +21,7 @@ Get your key at [kubeez.com](https://kubeez.com) or [dev.kubeez.com/settings/api
 ### `login`
 
 ```
-ai-image login <api-key>
+ai-media-cli login <api-key>
 ```
 
 Save your API key to `~/.ai-image-cli/config.json` (file permissions: `600`).
@@ -29,7 +29,7 @@ Save your API key to `~/.ai-image-cli/config.json` (file permissions: `600`).
 ### `logout`
 
 ```
-ai-image logout
+ai-media-cli logout
 ```
 
 Remove the saved API key.
@@ -37,7 +37,7 @@ Remove the saved API key.
 ### `whoami`
 
 ```
-ai-image whoami
+ai-media-cli whoami
 ```
 
 Show your current API key (masked) and account balance.
@@ -51,7 +51,7 @@ Show your current API key (masked) and account balance.
 List available AI models with pricing.
 
 ```
-ai-image models [options]
+ai-media-cli models [options]
 ```
 
 | Option | Description |
@@ -64,7 +64,7 @@ ai-image models [options]
 Generate images and videos.
 
 ```
-ai-image generate [options]
+ai-media-cli generate [options]
 ```
 
 | Option | Description | Default |
@@ -89,7 +89,7 @@ ai-image generate [options]
 Generate AI music tracks.
 
 ```
-ai-image music [options]
+ai-media-cli music [options]
 ```
 
 | Option | Description | Default |
@@ -104,7 +104,7 @@ ai-image music [options]
 Generate multi-speaker dialogue audio (TTS).
 
 ```
-ai-image dialogue [options]
+ai-media-cli dialogue [options]
 ```
 
 | Option | Description | Default |
@@ -120,7 +120,7 @@ JSON format: `[{"text": "Hello!", "voice": "Adam"}, {"text": "Hi!", "voice": "Em
 Generate ad variants from a reference ad.
 
 ```
-ai-image ad-copy [options]
+ai-media-cli ad-copy [options]
 ```
 
 | Option | Description | Default |
@@ -141,7 +141,7 @@ ai-image ad-copy [options]
 Upload media for use in generations.
 
 ```
-ai-image upload [options]
+ai-media-cli upload [options]
 ```
 
 | Option | Description | Default |
@@ -154,7 +154,7 @@ ai-image upload [options]
 Check generation status.
 
 ```
-ai-image status [options]
+ai-media-cli status [options]
 ```
 
 | Option | Description | Default |
@@ -168,7 +168,7 @@ ai-image status [options]
 Show account credits.
 
 ```
-ai-image balance [--json]
+ai-media-cli balance [--json]
 ```
 
 ### `generations`
@@ -176,7 +176,7 @@ ai-image balance [--json]
 List past generations.
 
 ```
-ai-image generations [options]
+ai-media-cli generations [options]
 ```
 
 | Option | Description |

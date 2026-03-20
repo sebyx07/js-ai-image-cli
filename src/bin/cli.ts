@@ -17,7 +17,7 @@ import { registerUploadCommand } from "../commands/upload";
 const program = new Command();
 
 program
-  .name("ai-image")
+  .name("ai-media-cli")
   .description("Generate AI images, videos, music & speech from your terminal — powered by Kubeez (https://kubeez.com)")
   .version(CLI_VERSION || "unknown");
 

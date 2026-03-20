@@ -27,7 +27,7 @@
 
 - One package for **images, videos, music, and speech** generation
 - Works as a **CLI tool**, **npx command**, and **TypeScript / JavaScript library**
-- Simple `ai-image login` — no config files to create
+- Simple `ai-media-cli login` — no config files to create
 - Built-in `--wait` flag to poll until generation completes
 - Automatic **retry with backoff** on server errors and rate limits
 - **Custom error classes** — `APIError`, `TimeoutError` for clean error handling
@@ -77,7 +77,7 @@ bun install -g ai-media-cli
 Then use anywhere:
 
 ```bash
-ai-image generate -p "a beautiful mountain landscape" -m nano-banana-2 --wait
+ai-media-cli generate -p "a beautiful mountain landscape" -m nano-banana-2 --wait
 ```
 
 ### As a Library
@@ -109,14 +109,14 @@ console.log(result.outputs?.[0]?.url);
 ### Option 1: Login command (recommended)
 
 ```bash
-ai-image login YOUR_API_KEY
+ai-media-cli login YOUR_API_KEY
 ```
 
 Saves to `~/.ai-image-cli/config.json` with `600` permissions. One-time setup.
 
 ```bash
-ai-image whoami     # show masked key + balance
-ai-image logout     # remove saved key
+ai-media-cli whoami     # show masked key + balance
+ai-media-cli logout     # remove saved key
 ```
 
 ### Option 2: Environment variable
@@ -135,50 +135,50 @@ Environment variable always takes priority over the config file.
 
 | Command | Description |
 |---------|-------------|
-| `ai-image login <key>` | Save API key to ~/.ai-image-cli |
-| `ai-image logout` | Remove saved key |
-| `ai-image whoami` | Show masked key and balance |
+| `ai-media-cli login <key>` | Save API key to ~/.ai-image-cli |
+| `ai-media-cli logout` | Remove saved key |
+| `ai-media-cli whoami` | Show masked key and balance |
 
 ### Generation
 
 ```bash
 # List models with pricing table
-ai-image models
-ai-image models --type image
-ai-image models --type video --json
+ai-media-cli models
+ai-media-cli models --type image
+ai-media-cli models --type video --json
 
 # Generate images
-ai-image generate -p "a cute robot painting" -m nano-banana-2 --wait
-ai-image generate -p "cinematic landscape" -m nano-banana-2 -a 16:9 --wait
-ai-image generate -p "portrait" -m nano-banana-2 -n "blurry, low quality" --wait
+ai-media-cli generate -p "a cute robot painting" -m nano-banana-2 --wait
+ai-media-cli generate -p "cinematic landscape" -m nano-banana-2 -a 16:9 --wait
+ai-media-cli generate -p "portrait" -m nano-banana-2 -n "blurry, low quality" --wait
 
 # Generate video
-ai-image generate -p "ocean waves" -m kling-v2 --type text-to-video --duration 5 --sound --wait
+ai-media-cli generate -p "ocean waves" -m kling-v2 --type text-to-video --duration 5 --sound --wait
 
 # Image-to-video
-ai-image generate -p "camera zoom" -m kling-v2 --type image-to-video --source-urls URL --wait
+ai-media-cli generate -p "camera zoom" -m kling-v2 --type image-to-video --source-urls URL --wait
 
 # Image-to-image
-ai-image generate -p "watercolor style" -m 5-lite-image-to-image --type image-to-image --source-urls URL --wait
+ai-media-cli generate -p "watercolor style" -m 5-lite-image-to-image --type image-to-image --source-urls URL --wait
 
 # Music
-ai-image music -p "lo-fi hip hop beat" --instrumental --wait
-ai-image music -p "epic orchestral soundtrack" -m V5 --wait
+ai-media-cli music -p "lo-fi hip hop beat" --instrumental --wait
+ai-media-cli music -p "epic orchestral soundtrack" -m V5 --wait
 
 # Text-to-speech
-ai-image dialogue -d '[{"text":"Hello!","voice":"Adam"},{"text":"Hi!","voice":"Emily"}]'
+ai-media-cli dialogue -d '[{"text":"Hello!","voice":"Adam"},{"text":"Hi!","voice":"Emily"}]'
 
 # Ad copy
-ai-image ad-copy -r https://example.com/ad.png --product-text "Premium headphones" --variants 3
+ai-media-cli ad-copy -r https://example.com/ad.png --product-text "Premium headphones" --variants 3
 ```
 
 ### Utilities
 
 ```bash
-ai-image upload -f ./photo.jpg                    # Upload media
-ai-image status -i GENERATION_ID --wait           # Check/poll status
-ai-image balance                                  # Check credits
-ai-image generations --status completed           # List generations
+ai-media-cli upload -f ./photo.jpg                    # Upload media
+ai-media-cli status -i GENERATION_ID --wait           # Check/poll status
+ai-media-cli balance                                  # Check credits
+ai-media-cli generations --status completed           # List generations
 ```
 
 All `generate` options:
@@ -366,10 +366,10 @@ Yearly billing saves an additional ~16%. See [kubeez.com/pricing](https://kubeez
 
 ```bash
 # Check real-time model pricing
-ai-image models
+ai-media-cli models
 
 # Check your balance
-ai-image balance
+ai-media-cli balance
 ```
 
 > Full models list: [docs/MODELS.md](docs/MODELS.md)
@@ -382,15 +382,15 @@ ai-image balance
 
 ```bash
 for i in 1 2 3 4 5; do
-  ai-image generate -p "abstract art variation $i" -m nano-banana-2 --seed $i --wait
+  ai-media-cli generate -p "abstract art variation $i" -m nano-banana-2 --seed $i --wait
 done
 ```
 
 ### Upload and transform
 
 ```bash
-URL=$(ai-image upload -f photo.jpg | jq -r '.url')
-ai-image generate -p "anime style" -m 5-lite-image-to-image --type image-to-image --source-urls "$URL" --wait
+URL=$(ai-media-cli upload -f photo.jpg | jq -r '.url')
+ai-media-cli generate -p "anime style" -m 5-lite-image-to-image --type image-to-image --source-urls "$URL" --wait
 ```
 
 ### Express API

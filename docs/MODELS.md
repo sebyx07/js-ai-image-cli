@@ -1,6 +1,6 @@
 # Available Models & Pricing
 
-> Run `ai-image models` for real-time pricing. Prices are in **credits**.
+> Run `ai-media-cli models` for real-time pricing. Prices are in **credits**.
 
 ## Image Models (27 models)
 
@@ -117,9 +117,9 @@ Yearly billing saves an additional ~16%.
 ## Quick Price Check
 
 ```bash
-ai-image models                    # table with all models + credits
-ai-image models --type image       # image models only
-ai-image models --type video       # video models only
-ai-image models --json             # raw JSON for scripting
-ai-image balance                   # check your credits
+ai-media-cli models                    # table with all models + credits
+ai-media-cli models --type image       # image models only
+ai-media-cli models --type video       # video models only
+ai-media-cli models --json             # raw JSON for scripting
+ai-media-cli balance                   # check your credits
 ```

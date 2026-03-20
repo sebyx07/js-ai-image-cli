@@ -50,7 +50,7 @@ export function getApiKey(): string {
   console.error("Error: No API key found.");
   console.error("");
   console.error("Set it with one of:");
-  console.error("  ai-image login YOUR_API_KEY");
+  console.error("  ai-media-cli login YOUR_API_KEY");
   console.error("  export AI_IMAGE_API_KEY=your_api_key");
   console.error("");
   console.error("Get your API key at: https://kubeez.com");
