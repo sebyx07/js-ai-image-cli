@@ -19,7 +19,7 @@ const DEFAULT_BASE_URL = "https://api.kubeez.com";
 const MAX_RETRIES = 3;
 const RETRY_DELAY_MS = 1000;
 
-const LIB_VERSION = "2.0.0";
+const LIB_VERSION = "2.0.1";
 
 export class AIImageClient {
   private apiKey: string;
