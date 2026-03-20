@@ -1,5 +1,5 @@
 {
-  "name": "ai-image-cli",
+  "name": "ai-media-cli",
   "version": "2.0.0",
   "description": "The easiest way to generate AI images, videos, music & speech from JavaScript/TypeScript — as a CLI, npx command, or library.",
   "main": "dist/index.js",

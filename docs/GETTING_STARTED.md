@@ -1,6 +1,6 @@
 # Getting Started
 
-A step-by-step guide to generating your first AI image with `ai-image-cli`.
+A step-by-step guide to generating your first AI image with `ai-media-cli`.
 
 ## 1. Get Your API Key
 
@@ -14,13 +14,13 @@ Choose one of these methods:
 
 ```bash
 # Option A: Global install (recommended)
-npm install -g ai-image-cli
+npm install -g ai-media-cli
 
 # Option B: Use with npx (no install)
-npx ai-image-cli --help
+npx ai-media-cli --help
 
 # Option C: Install with Bun
-bun install -g ai-image-cli
+bun install -g ai-media-cli
 ```
 
 ## 3. Authenticate
@@ -29,13 +29,13 @@ bun install -g ai-image-cli
 ai-image login YOUR_API_KEY
 ```
 
-Your key is saved securely to `~/.ai-image-cli/config.json` with `600` file permissions. You only need to do this once.
+Your key is saved securely to `~/.ai-media-cli/config.json` with `600` file permissions. You only need to do this once.
 
 Verify it works:
 
 ```bash
 ai-image whoami
-# API Key: sk_live_...xxxx (from ~/.ai-image-cli/config.json)
+# API Key: sk_live_...xxxx (from ~/.ai-media-cli/config.json)
 # Credits: 100
 ```
 

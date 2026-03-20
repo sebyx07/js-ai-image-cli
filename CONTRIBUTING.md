@@ -35,7 +35,7 @@ bun run build
 src/
   bin/cli.ts        # CLI entry point
   client.ts         # AIImageClient - HTTP client
-  config.ts         # Config file management (~/.ai-image-cli)
+  config.ts         # Config file management (~/.ai-media-cli)
   errors.ts         # Custom error classes
   helpers.ts        # Shared utilities (formatting, etc.)
   index.ts          # Library exports

@@ -37,7 +37,7 @@ jobs:
         run: bun run build
 
       # Uses npm Trusted Publishers (OIDC) — no NPM_TOKEN secret needed.
-      # Setup: npmjs.com → ai-image-cli → Settings → Trusted Publishers
+      # Setup: npmjs.com → ai-media-cli → Settings → Trusted Publishers
       #   → Add: repo sebyx07/js-ai-image-cli, workflow release.yml
       - name: Publish to npm
         run: npm publish --access public --provenance

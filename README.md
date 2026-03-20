@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="https://media.kubeez.com/images/ba8e6fb6-3310-4eda-bc0b-d301910d05bf.png" alt="ai-image-cli — generate AI images, videos, music and speech from your terminal" width="100%" />
+  <img src="https://media.kubeez.com/images/ba8e6fb6-3310-4eda-bc0b-d301910d05bf.png" alt="ai-media-cli — generate AI images, videos, music and speech from your terminal" width="100%" />
 </p>
 
-<h1 align="center">ai-image-cli</h1>
+<h1 align="center">ai-media-cli</h1>
 
 <p align="center">
   The easiest way to generate AI images, videos, music, and speech from JavaScript / TypeScript.<br/>
@@ -15,13 +15,13 @@
 
 <p align="center">
   <a href="https://github.com/sebyx07/js-ai-image-cli/actions/workflows/ci.yml"><img src="https://github.com/sebyx07/js-ai-image-cli/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
-  <a href="https://www.npmjs.com/package/ai-image-cli"><img src="https://img.shields.io/npm/v/ai-image-cli.svg" alt="npm" /></a>
+  <a href="https://www.npmjs.com/package/ai-media-cli"><img src="https://img.shields.io/npm/v/ai-media-cli.svg" alt="npm" /></a>
   <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT" /></a>
 </p>
 
 ---
 
-## Why ai-image-cli?
+## Why ai-media-cli?
 
 - One package for **images, videos, music, and speech** generation
 - Works as a **CLI tool**, **npx command**, and **TypeScript / JavaScript library**
@@ -54,8 +54,8 @@
 
 ```bash
 # No install needed — just use npx
-npx ai-image-cli login YOUR_API_KEY
-npx ai-image-cli generate -p "a cyberpunk cityscape at sunset" -m nano-banana-2 --wait
+npx ai-media-cli login YOUR_API_KEY
+npx ai-media-cli generate -p "a cyberpunk cityscape at sunset" -m nano-banana-2 --wait
 ```
 
 Get your API key at [kubeez.com](https://kubeez.com) -> [API Keys](https://dev.kubeez.com/settings/api-keys).
@@ -67,9 +67,9 @@ Get your API key at [kubeez.com](https://kubeez.com) -> [API Keys](https://dev.k
 ### Global Install (recommended for CLI)
 
 ```bash
-npm install -g ai-image-cli
+npm install -g ai-media-cli
 # or
-bun install -g ai-image-cli
+bun install -g ai-media-cli
 ```
 
 Then use anywhere:
@@ -81,13 +81,13 @@ ai-image generate -p "a beautiful mountain landscape" -m nano-banana-2 --wait
 ### As a Library
 
 ```bash
-npm install ai-image-cli
+npm install ai-media-cli
 # or
-bun add ai-image-cli
+bun add ai-media-cli
 ```
 
 ```typescript
-import { AIImageClient } from "ai-image-cli";
+import { AIImageClient } from "ai-media-cli";
 
 const client = new AIImageClient({ apiKey: "your-key" });
 
@@ -110,7 +110,7 @@ console.log(result.outputs?.[0]?.url);
 ai-image login YOUR_API_KEY
 ```
 
-Saves to `~/.ai-image-cli/config.json` with `600` permissions. One-time setup.
+Saves to `~/.ai-media-cli/config.json` with `600` permissions. One-time setup.
 
 ```bash
 ai-image whoami     # show masked key + balance
@@ -133,7 +133,7 @@ Environment variable always takes priority over the config file.
 
 | Command | Description |
 |---------|-------------|
-| `ai-image login <key>` | Save API key to ~/.ai-image-cli |
+| `ai-image login <key>` | Save API key to ~/.ai-media-cli |
 | `ai-image logout` | Remove saved key |
 | `ai-image whoami` | Show masked key and balance |
 
@@ -205,7 +205,7 @@ All `generate` options:
 ### Basic Setup
 
 ```typescript
-import { AIImageClient } from "ai-image-cli";
+import { AIImageClient } from "ai-media-cli";
 
 const client = new AIImageClient({
   apiKey: process.env.AI_IMAGE_API_KEY!,
@@ -268,7 +268,7 @@ const speech = await client.generateDialogue({
 ### Error Handling
 
 ```typescript
-import { AIImageClient, APIError, TimeoutError } from "ai-image-cli";
+import { AIImageClient, APIError, TimeoutError } from "ai-media-cli";
 
 try {
   await client.generateMedia({ prompt: "test", model: "bad" });
@@ -287,7 +287,7 @@ try {
 ### All Exports
 
 ```typescript
-import { AIImageClient, APIError, ConfigError, TimeoutError } from "ai-image-cli";
+import { AIImageClient, APIError, ConfigError, TimeoutError } from "ai-media-cli";
 import type {
   ClientOptions,
   GenerateMediaRequest,
@@ -303,7 +303,7 @@ import type {
   GenerationsListParams,
   ModelsResponse,
   Model,
-} from "ai-image-cli";
+} from "ai-media-cli";
 ```
 
 > Full library guide: [docs/LIBRARY_USAGE.md](docs/LIBRARY_USAGE.md)
@@ -373,7 +373,7 @@ ai-image generate -p "anime style" -m 5-lite-image-to-image --type image-to-imag
 
 ```typescript
 import express from "express";
-import { AIImageClient } from "ai-image-cli";
+import { AIImageClient } from "ai-media-cli";
 
 const app = express();
 const client = new AIImageClient({ apiKey: process.env.AI_IMAGE_API_KEY! });
@@ -393,7 +393,7 @@ app.listen(3000);
 ### Node.js script
 
 ```typescript
-import { AIImageClient } from "ai-image-cli";
+import { AIImageClient } from "ai-media-cli";
 
 const client = new AIImageClient({ apiKey: process.env.AI_IMAGE_API_KEY! });
 

@@ -1,19 +1,19 @@
 # Library Usage Guide
 
-Use `ai-image-cli` as a dependency in your Node.js, Bun, or TypeScript projects.
+Use `ai-media-cli` as a dependency in your Node.js, Bun, or TypeScript projects.
 
 ## Installation
 
 ```bash
-npm install ai-image-cli
+npm install ai-media-cli
 # or
-bun add ai-image-cli
+bun add ai-media-cli
 ```
 
 ## Creating a Client
 
 ```typescript
-import { AIImageClient } from "ai-image-cli";
+import { AIImageClient } from "ai-media-cli";
 
 const client = new AIImageClient({
   apiKey: process.env.AI_IMAGE_API_KEY!,
@@ -131,7 +131,7 @@ const completed = await client.getGenerations({
 ## Error Handling
 
 ```typescript
-import { AIImageClient, APIError, TimeoutError } from "ai-image-cli";
+import { AIImageClient, APIError, TimeoutError } from "ai-media-cli";
 
 try {
   await client.generateMedia({ prompt: "test", model: "bad" });
@@ -165,7 +165,7 @@ import type {
   GenerationsListParams,
   ModelsResponse,
   Model,
-} from "ai-image-cli";
+} from "ai-media-cli";
 ```
 
 ## API Reference
