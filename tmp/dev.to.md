@@ -1,98 +1,38 @@
 ---
-title: "Generate AI Images, Videos, Music & Speech from Your Terminal — One npm Package"
+title: "How to Generate AI Images, Videos, Music & Speech Programmatically with JavaScript"
 published: false
-description: "Meet ai-media-cli: a single CLI tool and TypeScript library that generates images, videos, music, and speech using 40+ AI models from OpenAI, Google, Flux, Kling, Suno and more."
-tags: ai, javascript, typescript, opensource
+description: "Learn how to programmatically generate AI images, videos, music, and text-to-speech in JavaScript and TypeScript. One SDK for 40+ models — like OpenRouter but for AI media generation."
+tags: ai, javascript, typescript, webdev
 cover_image: https://media.kubeez.com/images/d1157a44-1908-49c1-b018-b3e0649de192.png
 # Use a ratio of 100:42 for best results.
 # published_at: 2026-03-20 11:35 +0000
 ---
 
-# Generate AI Images, Videos, Music & Speech from Your Terminal — One npm Package
+AI-generated media is everywhere — product images, marketing videos, background music, voiceovers. But if you've tried integrating it into a JavaScript project, you know the pain: each provider has its own SDK, its own auth flow, its own async patterns. You end up writing more glue code than actual product logic.
 
-If you've ever wanted to generate AI media without juggling multiple APIs, SDKs, and billing dashboards — there's now a single npm package that handles it all.
-
-**[ai-media-cli](https://www.npmjs.com/package/ai-media-cli)** is an open-source CLI tool and TypeScript/JavaScript library that lets you generate **images, videos, music, and text-to-speech audio** — all from one unified interface.
-
-No more switching between providers. No more managing 5 different API keys. One install, one command.
+In this post, I'll walk through how to **programmatically generate images, videos, music, and speech** in JavaScript/TypeScript — with real code you can copy into your project today.
 
 ---
 
-## What Can It Do?
+## The Problem with Multiple AI Media APIs
 
-| Media Type | What You Get | Example Models |
-|-----------|-------------|----------------|
-| **Images** | Text-to-image, image-to-image | OpenAI GPT-Image, Google Imagen 4, FLUX-2, Seedream |
-| **Videos** | Text-to-video, image-to-video | Kling v2, Google Veo 2, Wan-X |
-| **Music** | Full tracks with vocals or instrumental | Suno V5 |
-| **Speech** | Multi-speaker dialogue generation | Built-in TTS voices |
+Let's say you want your app to generate a product image, a short promo video, and a background track. You'd need:
 
-That's **40+ models** across the top AI providers, accessible through a single tool.
+- An **OpenAI** or **Google** account for image generation
+- A **Kling** or **Veo** account for video generation
+- A **Suno** account for music generation
+- Three different SDKs, three billing dashboards, three sets of API keys
+- Custom polling logic for each (none of them return results synchronously)
 
----
-
-## Quick Start
-
-### Install globally
-
-```bash
-npm install -g ai-media-cli
-```
-
-### Authenticate once
-
-```bash
-ai-image login YOUR_API_KEY
-```
-
-You can grab a free API key at [kubeez.com](https://kubeez.com) — it comes with free trial credits.
-
-### Generate your first image
-
-```bash
-ai-image generate \
-  -p "a cyberpunk cityscape at sunset, neon reflections on wet streets" \
-  -m nano-banana-2 \
-  -a 16:9 \
-  --wait
-```
-
-The `--wait` flag polls automatically until the image is ready and gives you the download URL. No webhook setup needed.
-
-### Generate a video
-
-```bash
-ai-image generate \
-  -p "a drone flyover of a mountain valley at golden hour" \
-  -m kling-v2 \
-  -t text-to-video \
-  -d 5 \
-  --sound \
-  --wait
-```
-
-### Generate music
-
-```bash
-ai-image music \
-  -p "upbeat lo-fi hip hop beat, rainy day vibes" \
-  -m V5 \
-  --wait
-```
-
-### Generate speech
-
-```bash
-ai-image dialogue \
-  --dialogue '[{"text":"Welcome to the show!","voice":"Adam"},{"text":"Thanks for having me.","voice":"Emily"}]' \
-  --wait
-```
+That's a lot of overhead before you've written a single line of business logic.
 
 ---
 
-## Use It as a Library Too
+## A Simpler Approach: One SDK, All Media Types
 
-`ai-media-cli` isn't just a CLI — it's a fully-typed TypeScript library you can drop into any Node.js project.
+You know how [OpenRouter](https://openrouter.ai) gives you a single API to access hundreds of LLMs? The same concept exists for AI media generation.
+
+The [`ai-media-cli`](https://www.npmjs.com/package/ai-media-cli) package is essentially an **OpenRouter for AI-generated media** — a single TypeScript SDK that routes to **40+ models** across providers like OpenAI, Google, Black Forest Labs, ByteDance, xAI, and Suno. One API key, one interface, one billing account. Swap models by changing a string, not rewriting your integration.
 
 ```bash
 npm install ai-media-cli
@@ -101,126 +41,283 @@ npm install ai-media-cli
 ```typescript
 import { AIImageClient } from "ai-media-cli";
 
-const client = new AIImageClient({ apiKey: process.env.AI_IMAGE_API_KEY });
+const client = new AIImageClient({
+  apiKey: process.env.AI_IMAGE_API_KEY,
+});
+```
 
-// Generate an image
-const gen = await client.generateMedia({
-  prompt: "a serene Japanese garden in watercolor style",
+That's your setup. One client, one API key. Let's generate some media.
+
+---
+
+## Generating AI Images in JavaScript
+
+### Text-to-Image
+
+```typescript
+const generation = await client.generateMedia({
+  prompt: "a product photo of wireless headphones on a marble surface, soft studio lighting",
   model: "nano-banana-2",
+  aspect_ratio: "1:1",
+});
+
+// Poll until the image is ready
+const result = await client.pollForCompletion(generation.generation_id);
+const imageUrl = result.outputs?.[0]?.url;
+console.log(imageUrl); // https://media.kubeez.com/images/...
+```
+
+The `pollForCompletion` method handles the async nature of AI generation — it checks status every few seconds and resolves when the image is ready. No webhooks, no manual polling loops.
+
+### Image-to-Image
+
+Already have an image and want to transform it? Upload it first, then reference it:
+
+```typescript
+const upload = await client.uploadMedia("./reference-photo.jpg");
+
+const generation = await client.generateMedia({
+  prompt: "transform into an oil painting style, rich warm colors",
+  model: "nano-banana-2",
+  generation_type: "image-to-image",
+  source_urls: [upload.url],
+});
+
+const result = await client.pollForCompletion(generation.generation_id);
+```
+
+### Choosing a Model
+
+You have access to models across multiple providers:
+
+| Model | Provider | Best For |
+|-------|----------|----------|
+| `nano-banana-2` | Kubeez | Fast, general purpose |
+| `gpt-1.5-image-high` | OpenAI | High quality, prompt adherence |
+| `imagen-4-standard` | Google | Photorealism |
+| `flux-2-1k` | Black Forest Labs | Artistic, creative styles |
+| `seedream-v4.5` | ByteDance | Detail-rich scenes |
+
+You can list all available models programmatically:
+
+```typescript
+const models = await client.listModels();
+models.forEach((m) => console.log(m.name, m.credits_cost));
+```
+
+---
+
+## Generating AI Videos in JavaScript
+
+### Text-to-Video
+
+```typescript
+const generation = await client.generateMedia({
+  prompt: "a slow-motion shot of ocean waves crashing on rocks at sunset",
+  model: "kling-v2",
+  generation_type: "text-to-video",
+  duration: 5,
   aspect_ratio: "16:9",
+  sound: true, // generate audio with the video
 });
 
-// Wait for completion
-const result = await client.pollForCompletion(gen.generation_id);
-console.log(result.outputs?.[0]?.url);
+const result = await client.pollForCompletion(generation.generation_id);
+console.log(result.outputs?.[0]?.url); // MP4 URL
 ```
 
+### Image-to-Video
+
+Turn a static image into a short video — great for product animations or social content:
+
 ```typescript
-// Generate music
-const music = await client.generateMusic({
-  prompt: "epic cinematic orchestral trailer music",
-  instrumental: true,
+const generation = await client.generateMedia({
+  prompt: "gentle camera zoom in with soft parallax motion",
+  model: "kling-v2",
+  generation_type: "image-to-video",
+  source_urls: ["https://example.com/my-product-shot.jpg"],
+  duration: 5,
+});
+
+const result = await client.pollForCompletion(generation.generation_id);
+```
+
+Available video models include **Kling v2**, **Google Veo 2**, and **Wan-X** — each with different strengths for motion quality, duration, and style.
+
+---
+
+## Generating AI Music in JavaScript
+
+Need a background track for a video, podcast intro, or game?
+
+```typescript
+const generation = await client.generateMusic({
+  prompt: "upbeat lo-fi hip hop, vinyl crackle, mellow piano chords, rainy day vibes",
   model: "V5",
+  instrumental: true,
 });
 
-const track = await client.pollForCompletion(music.generation_id, "music");
-console.log(track.outputs?.[0]?.url);
+const result = await client.pollForCompletion(generation.generation_id, "music");
+console.log(result.outputs?.[0]?.url); // Audio file URL
 ```
 
+Set `instrumental: false` if you want AI-generated vocals. The `V5` model (powered by Suno) produces full-length tracks with surprisingly good musical structure.
+
+---
+
+## Generating AI Speech in JavaScript
+
+For voiceovers, narration, or dialogue — you can generate multi-speaker audio:
+
 ```typescript
-// Multi-speaker dialogue
-const speech = await client.generateDialogue({
+const generation = await client.generateDialogue({
   dialogue: [
-    { text: "The future of AI is multimodal.", voice: "Adam" },
-    { text: "Absolutely. And it should be accessible to every developer.", voice: "Emily" },
+    { text: "Welcome back to the show. Today we're talking about AI in production.", voice: "Adam" },
+    { text: "Thanks for having me. Let's dive right in.", voice: "Emily" },
+    { text: "So what's the biggest challenge teams face when shipping AI features?", voice: "Adam" },
+    { text: "Honestly? It's the integration complexity. The AI part is the easy part.", voice: "Emily" },
   ],
   stability: 0.7,
   language_code: "en",
 });
 ```
 
-Full TypeScript definitions are included — you get autocompletion and type safety out of the box.
+This is particularly useful for generating podcast-style content, app onboarding audio, or dynamic narration.
 
 ---
 
-## Useful CLI Commands
+## Practical Example: Automated Social Media Content Pipeline
 
-Beyond generation, the CLI comes with everything you need to manage your workflow:
+Here's a real-world use case — a script that generates a complete social media post with image, caption-ready metadata, and background music:
 
-```bash
-# List all available models with pricing
-ai-image models
+```typescript
+import { AIImageClient } from "ai-media-cli";
 
-# Check your credit balance
-ai-image balance
+const client = new AIImageClient({ apiKey: process.env.AI_IMAGE_API_KEY });
 
-# Check the status of a generation
-ai-image status <generation_id>
+async function generateSocialContent(topic: string) {
+  // Generate visual and audio in parallel
+  const [imageGen, musicGen] = await Promise.all([
+    client.generateMedia({
+      prompt: `social media post visual for: ${topic}, modern design, bold colors, 4K`,
+      model: "nano-banana-2",
+      aspect_ratio: "1:1",
+    }),
+    client.generateMusic({
+      prompt: `short upbeat jingle for social media, 15 seconds, ${topic} vibes`,
+      model: "V5",
+      instrumental: true,
+    }),
+  ]);
 
-# List your generation history
-ai-image generations
+  // Wait for both to complete in parallel
+  const [image, music] = await Promise.all([
+    client.pollForCompletion(imageGen.generation_id),
+    client.pollForCompletion(musicGen.generation_id, "music"),
+  ]);
 
-# Upload a source image for image-to-image or image-to-video
-ai-image upload ./my-photo.jpg
+  return {
+    imageUrl: image.outputs?.[0]?.url,
+    musicUrl: music.outputs?.[0]?.url,
+  };
+}
+
+const content = await generateSocialContent("spring product launch");
+console.log(content);
 ```
 
-Use `--json` on any command for machine-readable output — great for scripting and CI/CD pipelines.
+Since image and music generation are independent, we fire them off in parallel with `Promise.all` — cutting total wait time roughly in half.
 
 ---
 
-## Why Not Just Use the Provider APIs Directly?
+## Using It from the Command Line
 
-You absolutely can. But here's what you get with a unified approach:
+If you just need a quick generation without writing code, the package also works as a CLI:
 
-- **One API key** instead of managing credentials for OpenAI, Google, Black Forest Labs, ByteDance, etc.
-- **One consistent interface** — same CLI flags and library methods regardless of the underlying model
-- **Built-in retry logic** with exponential backoff for rate limits and server errors
-- **Automatic polling** so you don't have to build your own status-checking loops
-- **Model discovery** — run `ai-image models` and see what's available with pricing, instead of reading 6 different docs sites
-- **Credit-based billing** — pay for what you use across all providers through a single account
+```bash
+# Install globally
+npm install -g ai-media-cli
+
+# One-time auth
+ai-image login YOUR_API_KEY
+
+# Generate an image
+ai-image generate -p "product flat lay, minimal, white background" -m nano-banana-2 --wait
+
+# Generate a video
+ai-image generate -p "drone flyover mountain valley" -m kling-v2 -t text-to-video --wait
+
+# Generate music
+ai-image music -p "ambient electronic, space theme" -m V5 --wait
+
+# Or use npx without installing
+npx ai-media-cli generate -p "..." -m nano-banana-2 --wait
+```
+
+Great for prototyping prompts before coding them into your app.
 
 ---
 
-## Built for Developers
+## CI/CD Integration
 
-A few things that make this developer-friendly:
-
-- **Works with npx** — no install needed for one-off use: `npx ai-media-cli generate -p "..." -m nano-banana-2 --wait`
-- **Environment variable support** — set `AI_IMAGE_API_KEY` and skip the login step entirely
-- **Custom error classes** — `APIError`, `TimeoutError`, `ConfigError` for clean error handling
-- **MIT licensed** — use it however you want
-- **Node.js 18+** compatible
-
----
-
-## Example: Generate a Blog Cover Image from Your CI
+You can automate media generation in your pipelines. Here's a GitHub Actions example:
 
 ```yaml
-# .github/workflows/generate-cover.yml
-- name: Generate cover image
+- name: Generate marketing assets
   env:
     AI_IMAGE_API_KEY: ${{ secrets.AI_IMAGE_API_KEY }}
   run: |
     npx ai-media-cli generate \
-      -p "minimalist tech blog header, abstract gradient" \
+      -p "hero banner for product launch, abstract gradient, modern" \
       -m nano-banana-2 \
       -a 16:9 \
-      --wait \
-      --json > cover.json
+      --wait
 ```
 
 ---
 
-## Get Started
+## Error Handling
+
+The library provides typed errors for clean handling in production:
+
+```typescript
+import { AIImageClient, APIError, TimeoutError, ConfigError } from "ai-media-cli";
+
+try {
+  const result = await client.generateMedia({ prompt: "...", model: "nano-banana-2" });
+} catch (error) {
+  if (error instanceof APIError) {
+    console.error(`API error ${error.statusCode}: ${error.message}`);
+  } else if (error instanceof TimeoutError) {
+    console.error("Generation timed out — try a simpler prompt or different model");
+  } else if (error instanceof ConfigError) {
+    console.error("Missing API key — set AI_IMAGE_API_KEY or call client with { apiKey }");
+  }
+}
+```
+
+Built-in retry logic handles transient failures and rate limits automatically with exponential backoff — you don't need to add your own.
+
+---
+
+## Getting Started
+
+1. Grab a free API key at [kubeez.com](https://kubeez.com) (comes with trial credits)
+2. Install the package:
 
 ```bash
-npm install -g ai-media-cli
+npm install ai-media-cli
+```
+
+3. Start generating:
+
+```typescript
+import { AIImageClient } from "ai-media-cli";
+const client = new AIImageClient({ apiKey: "your-key" });
 ```
 
 - **npm**: [npmjs.com/package/ai-media-cli](https://www.npmjs.com/package/ai-media-cli)
 - **GitHub**: [github.com/sebyx07/js-ai-image-cli](https://github.com/sebyx07/js-ai-image-cli)
-- **API Keys & Docs**: [kubeez.com](https://kubeez.com)
 
 ---
 
-If you build something cool with it, I'd love to see it — drop a comment or open an issue on GitHub!
+The barrier to generating AI media programmatically has dropped significantly. What used to require stitching together multiple provider SDKs is now a few lines of JavaScript. If you're building anything that touches images, video, audio, or voice — give it a try and let me know what you build.
