@@ -10,6 +10,7 @@ jobs:
 
     permissions:
       contents: read
+      id-token: write # Required for npm trusted publishers (OIDC)
 
     steps:
       - uses: actions/checkout@v4
@@ -35,7 +36,8 @@ jobs:
       - name: Build
         run: bun run build
 
+      # Uses npm Trusted Publishers (OIDC) — no NPM_TOKEN secret needed.
+      # Setup: npmjs.com → ai-image-cli → Settings → Trusted Publishers
+      #   → Add: repo sebyx07/js-ai-image-cli, workflow release.yml
       - name: Publish to npm
-        run: npm publish --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish --access public --provenance
