@@ -1,0 +1,60 @@
+{
+  "name": "ai-image-cli",
+  "version": "0.1.0",
+  "description": "The easiest way to generate AI images, videos, music & speech from JavaScript/TypeScript — as a CLI, npx command, or library.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "ai-image": "dist/bin/cli.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "bun run tsc",
+    "dev": "bun run src/bin/cli.ts",
+    "lint": "bunx biome check src/ tests/",
+    "lint:fix": "bunx biome check --write src/ tests/",
+    "test": "bun test",
+    "prepublishOnly": "bun run build"
+  },
+  "keywords": [
+    "ai",
+    "image-generation",
+    "video-generation",
+    "music-generation",
+    "text-to-speech",
+    "text-to-image",
+    "text-to-video",
+    "ai-art",
+    "generative-ai",
+    "cli",
+    "kubeez",
+    "stable-diffusion",
+    "midjourney",
+    "dalle"
+  ],
+  "author": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sebyx07/js-ai-image-cli.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sebyx07/js-ai-image-cli/issues"
+  },
+  "homepage": "https://github.com/sebyx07/js-ai-image-cli#readme",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.0",
+    "@types/bun": "latest",
+    "typescript": "^5.6.0"
+  },
+  "dependencies": {
+    "commander": "^14.0.3"
+  }
+}
