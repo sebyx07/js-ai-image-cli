@@ -1,81 +1,125 @@
 # Available Models & Pricing
 
-> Run `ai-image models` for real-time pricing. The tables below are a snapshot — models and prices update frequently.
+> Run `ai-image models` for real-time pricing. Prices are in **credits**.
 
-## Image Models
+## Image Models (27 models)
 
-| Model | Provider | Credits | Est. Time | Generation Types |
-|-------|----------|---------|-----------|-----------------|
-| `nano-banana-2` | Kubeez | ~14 | ~26s | text-to-image |
-| `nano-banana-2-2K` | Kubeez | ~20 | ~30s | text-to-image (2K) |
-| `nano-banana-2-4K` | Kubeez | ~28 | ~45s | text-to-image (4K) |
-| `nano-banana-pro` | Kubeez | ~20 | ~30s | text-to-image |
-| `nano-banana-pro-2K` | Kubeez | ~28 | ~40s | text-to-image (2K) |
-| `nano-banana-pro-4K` | Kubeez | ~40 | ~60s | text-to-image (4K) |
-| `flux-2-1K` | Black Forest Labs | varies | varies | text-to-image |
-| `flux-2-2K` | Black Forest Labs | varies | varies | text-to-image |
-| `5-lite-text-to-image` | ByteDance (Seedream) | 12 | ~38s | text-to-image, image-to-image |
-| `5-lite-image-to-image` | ByteDance (Seedream) | 12 | ~209s | image-to-image |
-| `seedream-v4` | ByteDance | varies | varies | text-to-image |
-| `seedream-v4-5` | ByteDance | varies | varies | text-to-image |
-| `imagen-4` | Google | ~13 | varies | text-to-image |
-| `imagen-4-fast` | Google | ~7 | varies | text-to-image |
-| `imagen-4-ultra` | Google | varies | varies | text-to-image |
-| `gpt-1.5-image-high` | OpenAI | ~50 | varies | text-to-image |
-| `gpt-1.5-image-medium` | OpenAI | ~35 | varies | text-to-image |
-| `grok-text-to-image` | xAI | varies | varies | text-to-image |
-| `Z-image` | Zhipu | varies | varies | text-to-image |
+| Model ID | Name | Provider | Credits | Est. Time | Types |
+|----------|------|----------|---------|-----------|-------|
+| `Z-image` | Z-image | Alibaba | 3 | ~4s | text-to-image |
+| `replicate-z-image-hd` | Z-Image HD | Alibaba | 6 | ~5s | text-to-image |
+| `nano-banana` | Nano Banana | Google | 7 | ~10s | text-to-image |
+| `nano-banana-edit` | Nano Banana Edit | Google | 7 | ~16s | image-to-image |
+| `imagen-4-fast` | Imagen 4 Fast | Google | 7 | ~30s | text-to-image |
+| `seedream-v4` | Seedream V4 | ByteDance | 7 | ~33s | text-to-image |
+| `seedream-v4-edit` | Seedream V4 Edit | ByteDance | 7 | ~30s | image-to-image |
+| `seedream-v4-5` | Seedream 4.5 | ByteDance | 9 | ~21s | text-to-image |
+| `seedream-v4-5-edit` | Seedream V4.5 Edit | ByteDance | 9 | ~39s | image-to-image |
+| `flux-2-1K` | Flux 2 1K | Black Forest Labs | 10 | ~32s | text-to-image |
+| `flux-2-edit-1K` | Flux 2 Edit 1K | Black Forest Labs | 10 | ~32s | image-to-image |
+| `gpt-1.5-image-medium` | GPT 1.5 Image Medium | OpenAI | 10 | ~34s | text-to-image |
+| `5-lite-text-to-image` | Seedream 5 Lite | ByteDance | 12 | ~38s | text-to-image, image-to-image |
+| `5-lite-image-to-image` | Seedream 5 Lite | ByteDance | 12 | ~209s | image-to-image |
+| `imagen-4` | Imagen 4 | Google | 13 | ~33s | text-to-image |
+| `flux-2-2K` | Flux 2 2K | Black Forest Labs | 13 | ~41s | text-to-image |
+| `flux-2-edit-2K` | Flux 2 Edit 2K | Black Forest Labs | 13 | ~30s | image-to-image |
+| `nano-banana-2` | Nano Banana 2 | Google | 14 | ~42s | text-to-image |
+| `grok-text-to-image` | Grok Text-to-Image | xAI | 14 | ~30s | text-to-image |
+| `nano-banana-2-2K` | Nano Banana 2 2K | Google | 17 | ~30s | text-to-image |
+| `imagen-4-ultra` | Imagen 4 Ultra | Google | 19 | ~30s | text-to-image |
+| `nano-banana-2-4K` | Nano Banana 2 4K | Google | 25 | ~30s | text-to-image |
+| `nano-banana-pro` | Nano Banana Pro | Google | 31 | ~50s | text-to-image |
+| `nano-banana-pro-2K` | Nano Banana Pro 2K | Google | 31 | ~30s | text-to-image |
+| `gpt-1.5-image-high` | GPT 1.5 Image High | OpenAI | 32 | ~30s | text-to-image |
+| `nano-banana-pro-4K` | Nano Banana Pro 4K | Google | 41 | ~30s | text-to-image |
+| `ad-copy` | Ad Copy | Kubeez | 50 | ~30s | ad generation |
 
-## Video Models
+## Video Models (40+ models)
 
-| Model | Provider | Credits | Features |
-|-------|----------|---------|----------|
-| `kling-v2` | Kuaishou | varies | text-to-video, image-to-video, sound support |
-| `wan-x` | Alibaba | varies | text-to-video |
-| `veo-2` | Google | varies | text-to-video |
+### Budget (12-65 credits)
+
+| Model ID | Name | Provider | Credits | Details |
+|----------|------|----------|---------|---------|
+| `seedance-1-5-pro-480p-4s` | Seedance 1.5 Pro | ByteDance | 12 | 4s 480p |
+| `seedance-1-5-pro-720p-4s` | Seedance 1.5 Pro | ByteDance | 19 | 4s 720p |
+| `seedance-1-5-pro-480p-8s` | Seedance 1.5 Pro | ByteDance | 24 | 8s 480p |
+| `v1-pro-fast-i2v-720p-5s` | Seedance 1.0 | ByteDance | 40 | 5s 720p I2V |
+| `grok-text-to-video-6s` | Grok Video | xAI | 65 | 6s |
+| `grok-image-to-video` | Grok I2V | xAI | 65 | I2V |
+| `kling-2-5-image-to-video-pro` | Kling 2.5 I2V Pro | Kuaishou | 65 | 5s I2V |
+
+### Mid-range (90-155 credits)
+
+| Model ID | Name | Provider | Credits | Details |
+|----------|------|----------|---------|---------|
+| `kling-2-6-text-to-video-5s` | Kling 2.6 | Kuaishou | 90 | 5s |
+| `kling-2-6-image-to-video-5s` | Kling 2.6 I2V | Kuaishou | 90 | 5s I2V |
+| `wan-2-5-text-to-video-5s-720p` | Wan 2.5 | Alibaba | 93 | 5s 720p |
+| `veo3-1-fast-text-to-video` | Veo 3.1 Fast | Google | 99 | Fast |
+| `veo3-1-fast-reference-to-video` | Veo 3.1 Fast Ref | Google | 99 | Reference |
+| `kling-3-0-std` | Kling 3.0 | Kuaishou | 105 | Standard |
+| `kling-3-0-pro` | Kling 3.0 Pro | Kuaishou | 125 | Pro |
+| `wan-2-5-text-to-video-5s-1080p` | Wan 2.5 | Alibaba | 155 | 5s 1080p |
+
+### Premium (175+ credits)
+
+| Model ID | Name | Provider | Credits | Details |
+|----------|------|----------|---------|---------|
+| `kling-2-6-text-to-video-5s-audio` | Kling 2.6 | Kuaishou | 175 | 5s + audio |
+| `kling-2-6-text-to-video-10s` | Kling 2.6 | Kuaishou | 175 | 10s |
+| `wan-2-5-text-to-video-10s-720p` | Wan 2.5 | Alibaba | 186 | 10s 720p |
+| `wan-2-5-text-to-video-10s-1080p` | Wan 2.5 | Alibaba | 310 | 10s 1080p |
+| `kling-2-6-text-to-video-10s-audio` | Kling 2.6 | Kuaishou | 310 | 10s + audio |
+| `veo3-1-text-to-video` | Veo 3.1 Quality | Google | 390 | High quality |
+| `kling-3-0-motion-control-720p` | Kling 3.0 Motion | Kuaishou | 720 | Motion control |
+| `kling-3-0-motion-control-1080p` | Kling 3.0 Motion Pro | Kuaishou | 960 | Motion 1080p |
 
 ## Music Models
 
-| Model | Provider | Features |
-|-------|----------|----------|
-| `V5` (default) | Suno | Vocals + instrumental, various genres |
+| Model ID | Name | Credits | Features |
+|----------|------|---------|----------|
+| `suno-lyrics-generation` | Lyrics Generation | 2 | Generate lyrics only |
+| `V4` | Music V4 | 19 | Vocals + instrumental |
+| `V4_5` | Music V4.5 | 19 | Vocals + instrumental |
+| `V4_5PLUS` | Music V4.5+ | 19 | Vocals + instrumental |
+| `V5` | Music V5 (default) | 19 | Vocals + instrumental |
+| `suno-add-instrumental` | Add Instrumental | 19 | Add instrumental track |
+| `suno-add-vocals` | Add Vocals | 19 | Add vocal track |
 
-## Pricing
+## Speech Models
 
-Kubeez uses a **credit-based** system. Each generation costs a certain number of credits depending on the model.
+| Model ID | Name | Provider | Credits |
+|----------|------|----------|---------|
+| `text-to-dialogue-v3` | Text To Dialogue V3 | ElevenLabs | 21 |
 
-### Plans
+## Other Models
 
-| Plan | Best For |
-|------|----------|
-| **Free Trial** | Testing the platform (free credits on signup) |
-| **Starter** | Experimentation and light use |
-| **Advanced** | Regular use with standard models |
-| **Pro** | Full experience, most popular |
-| **Studio Pro** | High-volume professional use |
-| **Powerhouse** | Maximum value, highest efficiency |
+| Model ID | Name | Provider | Credits | Features |
+|----------|------|----------|---------|----------|
+| `auto-caption` | Auto Caption | Kubeez | 0.5 | Generate captions |
+| `mvsep-40` | BS Roformer | MVSEP | 6 | Vocal/instrumental separation |
 
-Plans offer **4-44% savings** vs. pay-as-you-go pricing. Yearly billing saves an additional ~16%.
+## Pricing Plans
 
-See full pricing at [kubeez.com/pricing](https://kubeez.com/pricing).
+Kubeez uses a credit-based system. Plans at [kubeez.com/pricing](https://kubeez.com/pricing):
 
-## Checking Prices
+| Plan | Best For | Savings vs PAYG |
+|------|----------|-----------------|
+| Free Trial | Testing (free credits on signup) | — |
+| Starter | Light experimentation | ~4% |
+| Advanced | Regular use | ~10% |
+| Pro (most popular) | Full experience | ~20% |
+| Studio Pro | High-volume professional | ~30% |
+| Powerhouse | Maximum output | ~44% |
 
-The easiest way to see current prices:
+Yearly billing saves an additional ~16%.
+
+## Quick Price Check
 
 ```bash
-# Table view with costs
-ai-image models
-
-# Filter by type
-ai-image models --type image
-
-# Raw JSON with all details
-ai-image models --json
-```
-
-Check your remaining balance:
-
-```bash
-ai-image balance
+ai-image models                    # table with all models + credits
+ai-image models --type image       # image models only
+ai-image models --type video       # video models only
+ai-image models --json             # raw JSON for scripting
+ai-image balance                   # check your credits
 ```

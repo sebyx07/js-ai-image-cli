@@ -316,20 +316,42 @@ import type {
 
 Kubeez uses a **credit-based** system. Each model has a different cost per generation.
 
-### Highlighted Models
+90+ models across 8 providers. Highlights:
 
-| Model | Type | Provider | ~Credits | Features |
-|-------|------|----------|----------|----------|
-| `nano-banana-2` | Image | Kubeez | 14 | Fast, good quality |
-| `nano-banana-pro` | Image | Kubeez | 20 | Higher quality |
-| `imagen-4-fast` | Image | Google | 7 | Fast Google Imagen |
-| `imagen-4` | Image | Google | 13 | High quality |
-| `gpt-1.5-image-high` | Image | OpenAI | 50 | GPT Image |
-| `5-lite-text-to-image` | Image | ByteDance | 12 | Seedream, img-to-img support |
-| `flux-2-1K` | Image | Black Forest Labs | varies | FLUX model |
-| `kling-v2` | Video | Kuaishou | varies | Text/image to video, sound |
-| `veo-2` | Video | Google | varies | Text to video |
-| `V5` | Music | Suno | varies | Vocals + instrumental |
+### Image (27 models, from 3 credits)
+
+| Model | Provider | Credits | Speed |
+|-------|----------|---------|-------|
+| `Z-image` | Alibaba | 3 | ~4s |
+| `nano-banana` | Google | 7 | ~10s |
+| `imagen-4-fast` | Google | 7 | ~30s |
+| `seedream-v4-5` | ByteDance | 9 | ~21s |
+| `flux-2-1K` | Black Forest Labs | 10 | ~32s |
+| `gpt-1.5-image-medium` | OpenAI | 10 | ~34s |
+| `imagen-4` | Google | 13 | ~33s |
+| `nano-banana-2` | Google | 14 | ~42s |
+| `grok-text-to-image` | xAI | 14 | ~30s |
+| `gpt-1.5-image-high` | OpenAI | 32 | ~30s |
+
+### Video (40+ models, from 12 credits)
+
+| Model | Provider | Credits | Details |
+|-------|----------|---------|---------|
+| `seedance-1-5-pro-480p-4s` | ByteDance | 12 | 4s 480p |
+| `kling-2-6-text-to-video-5s` | Kuaishou | 90 | 5s |
+| `veo3-1-fast-text-to-video` | Google | 99 | Fast |
+| `kling-3-0-pro` | Kuaishou | 125 | Pro quality |
+| `kling-2-6-text-to-video-5s-audio` | Kuaishou | 175 | 5s + audio |
+| `veo3-1-text-to-video` | Google | 390 | High quality |
+
+### Music & Speech
+
+| Model | Credits | Features |
+|-------|---------|----------|
+| `V5` (default) | 19 | Vocals + instrumental |
+| `V4_5PLUS` | 19 | Vocals + instrumental |
+| `suno-lyrics-generation` | 2 | Lyrics only |
+| `text-to-dialogue-v3` | 21 | Multi-speaker TTS (ElevenLabs) |
 
 ### Plans
 
