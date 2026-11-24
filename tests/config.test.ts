@@ -42,8 +42,7 @@ describe("config module", () => {
   });
 
   describe("saveConfig / loadConfig round-trip", () => {
-    it("should save and load config successfully", async () => {
-      const { loadConfig, saveConfig } = await import("../src/config");
+    it("should save and load config successfully", () => {
       // We test via the filesystem directly since the module-level constants
       // resolve HOME at import time. Write to the path loadConfig will read.
       const configDir = path.join(testDir, ".ai-image-cli");
