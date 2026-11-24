@@ -26,7 +26,7 @@ describe("config module", () => {
     if (originalApiKey !== undefined) {
       process.env.AI_IMAGE_API_KEY = originalApiKey;
     } else {
-      process.env.AI_IMAGE_API_KEY = undefined;
+      Reflect.deleteProperty(process.env, "AI_IMAGE_API_KEY");
     }
     if (fs.existsSync(testDir)) {
       fs.rmSync(testDir, { recursive: true });
@@ -122,7 +122,7 @@ describe("config module", () => {
     });
 
     it("should return key from config file when env var is not set", () => {
-      process.env.AI_IMAGE_API_KEY = undefined;
+      Reflect.deleteProperty(process.env, "AI_IMAGE_API_KEY");
       const configDir = path.join(testDir, ".ai-image-cli");
       fs.mkdirSync(configDir, { recursive: true });
       const configFile = path.join(configDir, "config.json");
@@ -139,7 +139,7 @@ describe("config module", () => {
     });
 
     it("should call process.exit when no env var and no config file", () => {
-      process.env.AI_IMAGE_API_KEY = undefined;
+      Reflect.deleteProperty(process.env, "AI_IMAGE_API_KEY");
       // No config file exists, so getApiKey should exit
       // We verify the env var is indeed missing
       expect(process.env.AI_IMAGE_API_KEY).toBeUndefined();
