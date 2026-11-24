@@ -1,0 +1,34 @@
+# Dependency updates for sebyx07/js-ai-image-cli (established by the developerz.ai maintainer agent for the maintainers of this repository).
+# Proposed by developerz.ai onboarding, because this repository
+# had no dependency-update configuration. Dependabot opens the update pull requests
+# weekly; developerz.ai reviews them, and whether they merge automatically follows
+# this repository's merge policy. Minor and patch updates arrive as one pull request
+# per ecosystem; a major update arrives on its own. Edit this file to change what is
+# updated or when, or delete it to stop.
+# Why updates wait 14 days and a security update does not: https://github.com/developerz-ai/gold-standards-in-ai/blob/main/docs/developer-experience/dependency-updates.md
+version: 2
+updates:
+  - package-ecosystem: "bun"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "wednesday"
+      time: "08:00"
+    cooldown:
+      default-days: 14
+    groups:
+      bun-minor-and-patch:
+        patterns: ["*"]
+        update-types: ["minor", "patch"]
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "wednesday"
+      time: "08:00"
+    cooldown:
+      default-days: 14
+    groups:
+      github-actions-minor-and-patch:
+        patterns: ["*"]
+        update-types: ["minor", "patch"]
