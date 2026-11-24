@@ -45,7 +45,7 @@ output and the run URL. A red `main` comes first: nothing releases from it.
 - `cli-broken`: title `ai-media-cli@<version> does not start`. npm serves `$v` and `npx` fails, or `--version` prints something other than `$v`. Add the full output: this is what every new user runs first.
 - `kubeez-api-drift`: title `Kubeez dropped <path>`. The Kubeez OpenAPI no longer lists a path `src/client.ts` calls. One issue per path.
 - `dependabot-stuck`: title `Dependabot PR #<n> is stuck`. A Dependabot PR open more than 7 days, or red more than 2 days. Say why (red check, conflict, waiting on review).
-- `community-pr-waiting`: title `PR #<n> from @<author> is waiting on the maintainer`. A contributor's ready pull request has had no review and no answer from a maintainer for more than 3 days, counted from the author's last commit or comment. Say what it waits on.
+- `community-pr-waiting`: title `PR #<n> from @<author> is waiting on the maintainer`. A contributor's ready pull request has had no review and no answer from a maintainer for more than 3 days, counted from the latest of: when it was opened or marked ready for review, the author's last commit, the author's last comment. Say what it waits on.
 - `dead-doc-link`: title `dead link in <file>`. A relative link points at a file that does not exist.
 
 Never delete a tag, re-run a publish, `npm publish` or push to `main` from here. Never call a
