@@ -23,7 +23,7 @@ tag="v$v"
 | the published CLI starts | `npx --yes "$PKG@$v" --version` and `npx --yes "$PKG@$v" --help` | run only once the registry answers `200` for `$v` (the row above): before that there is nothing to install and this row is `not read`. Then: prints `$v`; the help lists the commands the README documents. Neither needs an API key |
 | the Kubeez API still matches the client | `curl -fsS https://api.kubeez.com/openapi.json \| jq -r '.paths \| keys[]'` against `grep -oE '/v1/[a-z/-]+' src/client.ts \| sort -u` | every path `src/client.ts` calls is listed |
 | Dependabot is not stuck | `gh pr list -R $R --author app/dependabot --state open --json number,title,createdAt,statusCheckRollup` | none open more than 7 days, none red more than 2 days |
-| community pull requests are not waiting | `gh pr list -R $R --state open --json number,title,author,isDraft,createdAt,updatedAt,reviewDecision,statusCheckRollup` | no non-draft pull request from a person has gone more than 3 days without a review or an answer from the maintainer. The list alone cannot tell who spoke last: for each candidate read `gh pr view <n> -R $R --json author,reviews,comments,commits` and compare the newest review or comment by someone other than the author with the author's newest commit or comment |
+| community pull requests are not waiting | `gh pr list -R $R --state open --json number,title,author,isDraft,createdAt,updatedAt,reviewDecision,statusCheckRollup` | no non-draft pull request from a person has gone more than 3 days without a review or an answer from the maintainer. The list alone cannot tell who spoke last: for each candidate read `gh pr view <n> -R $R --json author,reviews,comments,commits` and compare the newest review or comment from a maintainer (`authorAssociation` `OWNER`, `MEMBER` or `COLLABORATOR`, or the maintainer bot) with the author's newest commit or comment. Another contributor's comment is not an answer |
 | docs links resolve | every relative `](…)` link in `README.md`, `CLAUDE.md`, `CONTRIBUTING.md` and `docs/**` points to a file that exists | no dead links |
 
 If a workflow named above does not exist (`gh workflow view <file> -R $R` fails), that is the row,
@@ -45,7 +45,7 @@ output and the run URL. A red `main` comes first: nothing releases from it.
 - `cli-broken`: title `ai-media-cli@<version> does not start`. npm serves `$v` and `npx` fails, or `--version` prints something other than `$v`. Add the full output: this is what every new user runs first.
 - `kubeez-api-drift`: title `Kubeez dropped <path>`. The Kubeez OpenAPI no longer lists a path `src/client.ts` calls. One issue per path.
 - `dependabot-stuck`: title `Dependabot PR #<n> is stuck`. A Dependabot PR open more than 7 days, or red more than 2 days. Say why (red check, conflict, waiting on review).
-- `community-pr-waiting`: title `PR #<n> from @<author> is waiting on the maintainer`. A contributor's ready pull request has had no review and no answer from anyone but its author for more than 3 days, counted from the author's last commit or comment. Say what it waits on.
+- `community-pr-waiting`: title `PR #<n> from @<author> is waiting on the maintainer`. A contributor's ready pull request has had no review and no answer from a maintainer for more than 3 days, counted from the author's last commit or comment. Say what it waits on.
 - `dead-doc-link`: title `dead link in <file>`. A relative link points at a file that does not exist.
 
 Never delete a tag, re-run a publish, `npm publish` or push to `main` from here. Never call a
