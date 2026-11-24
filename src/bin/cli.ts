@@ -1,8 +1,6 @@
 #!/usr/bin/env node
 
 import { Command } from "commander";
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const { version: CLI_VERSION } = require("../../package.json");
 import { registerAdCopyCommand } from "../commands/adcopy";
 import { registerBalanceCommand } from "../commands/balance";
 import { registerDialogueCommand } from "../commands/dialogue";
@@ -13,6 +11,9 @@ import { registerModelsCommand } from "../commands/models";
 import { registerMusicCommand } from "../commands/music";
 import { registerStatusCommand } from "../commands/status";
 import { registerUploadCommand } from "../commands/upload";
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { version: CLI_VERSION } = require("../../package.json");
 
 const program = new Command();
 
