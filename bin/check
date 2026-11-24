@@ -8,7 +8,7 @@ cd "$(dirname "$0")/.."
 full_gate() (
   exec 9>&-
   set -e
-  bun run lint && bun run test
+  bun run lint && bun run test && bun run build
 )
 
 paths=()
