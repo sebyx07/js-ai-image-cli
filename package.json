@@ -74,7 +74,7 @@
     "provenance": true
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.9.0",
+    "@biomejs/biome": "^2.6.6",
     "@types/bun": "latest",
     "typescript": "^5.6.0"
   },
