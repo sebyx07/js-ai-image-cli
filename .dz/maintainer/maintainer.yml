@@ -1,0 +1,97 @@
+# yaml-language-server: $schema=https://developerz.ai/schemas/maintainer.v1.json
+# developerz.ai maintainer policy for sebyx07/js-ai-image-cli (npm package `ai-media-cli`)
+#
+# AI-MAINTAINED, tier B (OSS library). The agent triages, answers, reviews, merges on a green
+# `test-and-lint` and closes what has stalled. Publishing is release.yml's job: a published GitHub
+# release runs `npm publish --provenance` through npm trusted publishing (OIDC), no token.
+#
+# `pr.required_checks` names `test-and-lint`, the ci.yml job (it has no `name:`, so the check run
+# carries the job id). That is this policy's gate, not GitHub's: `main` had no branch protection
+# and no ruleset when this was written (2026-11-23). Read
+# `gh api repos/sebyx07/js-ai-image-cli/rulesets` before trusting any sentence here about it.
+version: 1
+
+tone:
+  voice: friendly
+  language: en
+
+triage:
+  skip_project_members: false
+  ask_for_repro: true
+  required_fields: [steps, expected, actual, version]
+  qualify_into: [bug, feature, dupe, question, docs]
+  close_unanswered_repro_after_days: 14
+  # From CLAUDE.md "Code Rules" and "Testing".
+  non_goals:
+    - "process.exit() or a generic Error in library code (src/client.ts, src/errors.ts, src/types.ts): throw ConfigError, APIError or TimeoutError"
+    - "Retrying a 4xx response: retries are for 5xx and 429 only"
+    - "A public AIImageClient method returning Promise<unknown> or any"
+    - "A hardcoded version string: the version is read from package.json at runtime"
+    - "Tests that call the real Kubeez API: mock globalThis.fetch"
+    - "Outside changes to CI, release or publish automation (.github/, package.json publish fields, the version): owner only. Dependency-bot bumps are not covered: merge those on green"
+
+handoff:
+  mode: fleet
+  ask_reporter_first: false
+
+pr:
+  wait_for_other_bots: []
+  auto_merge: true
+  auto_merge_scope: any
+  require_review: true
+  required_checks:
+    - "test-and-lint"
+  close_awaiting_author_after_days: 21
+
+review:
+  enabled: true
+  force: true
+  depth: inline
+  profile: chill
+  request_changes: true
+  approval: false
+  high_level_summary: true
+  learnings: false
+  chat_auto_reply: true
+  auto_review:
+    enabled: true
+    incremental: true
+    drafts: false
+    base_branches: [main]
+    ignore_title_keywords: [WIP, "DO NOT MERGE"]
+  anti_noise:
+    severity_floor: minor
+    max_comments: 10
+    dedupe: true
+  path_filters: []
+  path_instructions:
+    - path: "src/client.ts"
+      instructions: >-
+        Paid API client. Retry only on 5xx and 429, never a 4xx. Every new public method has a
+        typed return value and, in tests/client.test.ts, a success test and an error test (plus a
+        retry test when it is retry-eligible), with globalThis.fetch mocked.
+    - path: "src/commands/**"
+      instructions: >-
+        One command per file, exporting a single register*Command(program). Output goes through
+        src/helpers.ts; no API logic here.
+
+release:
+  # release.yml owns the lane: a published GitHub release publishes to npm via trusted publishing.
+  manager: none
+  channels: []
+
+escalate:
+  ask_before_acting: [breaking_change]
+
+# Each checkup reads its brief from this repository at `main`'s HEAD.
+schedules:
+  - name: health
+    days: [mon, tue, wed, thu, fri, sat, sun]
+    hours_utc: [5]
+    brief_file: .dz/schedules/health.md
+  # Monthly: the first Monday of the month (UTC days 1-7).
+  - name: improve
+    days: [mon]
+    weeks_of_month: [1]
+    hours_utc: [9]
+    brief_file: .dz/schedules/improve.md
