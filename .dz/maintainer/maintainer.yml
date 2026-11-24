@@ -83,6 +83,11 @@ release:
 escalate:
   ask_before_acting: [breaking_change]
 
+# First-tier security advisories are read against the versions this repo runs, and a fix is filed
+# when one is in a vulnerable range.
+devops:
+  watch: advisories
+
 # Each checkup reads its brief from this repository at `main`'s HEAD.
 schedules:
   - name: health
@@ -95,3 +100,8 @@ schedules:
     weeks_of_month: [1]
     hours_utc: [9]
     brief_file: .dz/schedules/improve.md
+  # Weekly census of the automated work that failed here. It reports and files nothing.
+  - name: repo-census
+    days: [mon]
+    hours_utc: [6]
+    brief_file: .dz/schedules/repo-census.md
