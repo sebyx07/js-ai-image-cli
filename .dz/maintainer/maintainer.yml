@@ -37,6 +37,10 @@ handoff:
 pr:
   wait_for_other_bots: []
   auto_merge: true
+  # `any` covers every author for ordinary changes. It does not reach an outside author's pull
+  # request that touches CI, release, dependency or agent-instruction paths (.github/, the manifest
+  # and lockfile, CLAUDE.md, .dz/): the platform holds those for the owner whatever this file says,
+  # and no key here releases them. Dependency bots are not outside authors.
   auto_merge_scope: any
   require_review: true
   required_checks:
