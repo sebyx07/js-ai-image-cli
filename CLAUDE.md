@@ -1,63 +1,63 @@
-# CLAUDE.md
+# Project brain
 
-## Project
+Every agent run on this repository loads this file as its project brain.
 
-ai-media-cli — npm package for AI media generation (images, videos, music, speech). CLI tool + TypeScript library wrapping the Kubeez API (https://api.kubeez.com/docs).
+## Rules
+
+- Keep each file single-purpose. Separate API transport from CLI output.
+- Never call `process.exit()` in library code (`src/client.ts`, `src/errors.ts`, `src/types.ts`); throw typed errors. Only CLI commands may exit.
+- Use `ConfigError` for config, `APIError` for HTTP and `TimeoutError` for polling timeouts; never use generic `Error`.
+- Give every public `AIImageClient` method a typed return value; never add `Promise<unknown>`.
+- Retry only 5xx and 429 responses; do not retry other 4xx errors.
+- Read the version from `package.json` at runtime; never hardcode it.
+- Keep library code free of `any`; `Record<string, any>` is allowed only in CLI action callbacks.
+
+## Stack and API
+
+| Item | Choice |
+| --- | --- |
+| Package | `ai-media-cli`, CLI and TypeScript library for image, video, music and speech generation |
+| Runtime and tools | Node >= 18, Bun, TypeScript, Commander, Biome |
+| API | Kubeez, `https://api.kubeez.com`, `X-API-Key` authentication; [API reference](https://api.kubeez.com/docs) |
 
 ## Commands
 
-```bash
-bun install          # install deps
-bun test             # run 64 tests
-bun run lint         # biome check
-bun run lint:fix     # biome auto-fix
-bun run build        # tsc → dist/
-bun run dev -- ...   # run CLI in dev mode
-```
+Run from the repository root.
 
-## Architecture
+| Command | Purpose |
+| --- | --- |
+| `bun install` or `./bin/setup` | Install dependencies |
+| `bun test` | Run tests |
+| `bun run lint` | Check `src/` and `tests/` with Biome; run before committing |
+| `bun run lint:fix` | Apply Biome fixes |
+| `bun run build` | Typecheck and emit `dist/` with TypeScript |
+| `bun run dev -- ...` | Run the CLI in development |
+| `./bin/dev` | Run the development CLI |
+| `./bin/check` | Run lint and tests; does not run the build or typecheck |
 
-Single-responsibility structure:
-- `src/client.ts` — `AIImageClient` HTTP client. Retry logic, polling, all API methods.
-- `src/config.ts` — Config file I/O (`~/.ai-image-cli/config.json`), API key resolution.
-- `src/errors.ts` — `APIError`, `ConfigError`, `TimeoutError`. Never use generic Error.
-- `src/types.ts` — All TypeScript interfaces. One source of truth for request/response shapes.
-- `src/helpers.ts` — CLI-only utilities (createClient, formatJson, formatTable, printResult).
-- `src/commands/*.ts` — One file per CLI command. Each exports a single `register*Command(program)` function.
-- `src/bin/cli.ts` — Entry point. Only wires commands to Commander, no logic.
-- `src/index.ts` — Library exports. Only re-exports from client, errors, types.
+## Structure
 
-## Code Rules
+| Path | Responsibility |
+| --- | --- |
+| `src/client.ts` | `AIImageClient` HTTP methods, retries and polling |
+| `src/config.ts` | Config I/O at `~/.ai-image-cli/config.json` and API key resolution |
+| `src/errors.ts` | Typed errors |
+| `src/types.ts` | Request and response interfaces, the source of truth for shapes |
+| `src/helpers.ts` | CLI utilities: `createClient`, `formatJson`, `formatTable`, `printResult` |
+| `src/commands/*.ts` | One file per CLI command; export one `register*Command(program)` function |
+| `src/bin/cli.ts` | Commander setup and command registration only |
+| `src/index.ts` | Library re-exports from client, errors and types only |
 
-- SOLID / SRP: each file has one job. Don't mix API logic with CLI output.
-- Never call `process.exit()` in library code (src/client.ts, src/errors.ts, src/types.ts). Throw typed errors instead. Only CLI commands may exit.
-- All public `AIImageClient` methods must have typed return values. No `Promise<unknown>` on new methods.
-- Use `ConfigError` for config issues, `APIError` for HTTP errors, `TimeoutError` for polling timeout.
-- Retry only on 5xx and 429. Never retry 4xx client errors.
-- Version comes from package.json at runtime — never hardcode version strings.
+## Tests and style
 
-## Testing
-
-- Framework: `bun:test` with `describe/it/expect/mock`
-- Mock `globalThis.fetch` for client tests — never hit real API
-- Tests must be self-contained: save/restore env vars and globals in beforeEach/afterEach
-- Test file naming: `tests/<module>.test.ts`
-- Every new API method needs: success test, error test. Retry-eligible methods need retry test.
-- CLI command tests: mock `createClient()`, capture console output.
-
-## Style
-
-- Biome for lint + format. Run `bun run lint` before committing.
-- Imports sorted alphabetically (biome enforces this).
-- No `any` in library code. `Record<string, any>` is OK in CLI command action callbacks only.
-- 2-space indent, 120 char line width.
+- Use `bun:test` with `describe`, `it`, `expect` and `mock`; name files `tests/<module>.test.ts`.
+- Mock `globalThis.fetch` in client tests; never call the real API. Save and restore environment variables and globals in `beforeEach` and `afterEach`.
+- For each new API method, test success and error; also test retries where eligible.
+- For CLI commands, mock `createClient()` and capture console output.
+- Use Biome formatting, alphabetically sorted imports, 2-space indentation and a 120-character line width.
 
 ## Release
 
-- Bump version in package.json only (client.ts and cli.ts read it at runtime).
-- Push to main, create GitHub release → auto-publishes to npm via OIDC trusted publisher.
-- `npm publish --provenance --access public` (requires npm >= 11.5.1 in CI).
-
-## API Reference
-
-Base URL: `https://api.kubeez.com`. Auth: `X-API-Key` header. Full spec: https://api.kubeez.com/docs
+- Bump the version in `package.json` only; the client and CLI read it at runtime.
+- Push to main and create a GitHub release to publish to npm through OIDC trusted publishing.
+- Publish with `npm publish --provenance --access public`; CI requires npm >= 11.5.1.
