@@ -13,7 +13,7 @@ only, the version read from `package.json`, tests that mock `globalThis.fetch`) 
 ## Rows
 
 - `community-pr-waiting`: a contributor's pull request or issue has waited more than 7 days on the maintainer (§1).
-- `main-red`: `main` is red or flaky, or a health-brief row nobody fixed (§2 item 1).
+- `main-red`: `main` is red or flaky (§2 item 1).
 - `api-drift`: the Kubeez API has an endpoint, parameter or response field the client lacks or still names wrongly (§2 item 2).
 - `untested-method`: a public `AIImageClient` method or a CLI command without the tests `CLAUDE.md` requires (§2 item 3).
 - `dep-major`: a dependency or action major Dependabot proposed and could not land, or does not propose (§2 item 4).
@@ -37,7 +37,7 @@ handle. Never close a contributor's pull request to re-do it under the bot's nam
 
 ## 2. Pick at most three improvements, in this order
 
-1. A red or flaky `main`, or a health-brief row (`.dz/schedules/health.md`) nobody fixed.
+1. A red or flaky `main`.
 2. API drift. Compare the client with the published spec, which needs no key:
 
    ```bash
