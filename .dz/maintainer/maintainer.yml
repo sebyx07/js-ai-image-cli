@@ -92,12 +92,19 @@ escalate:
 devops:
   watch: advisories
 
-# Each checkup reads its brief from this repository at `main`'s HEAD.
+# scout: the platform's survey files only what is already BROKEN, never an improvement idea.
+scout:
+  survey: broken_only
+
+# care: no docs-citation tasks. Across the fleet they were 47 tasks in 30 days for 8 docs-only
+# merges and 33 failures.
+care:
+  docs_drift: off
+
+# Each checkup reads its brief from this repository at `main`'s HEAD. The daily `health` checkup
+# was removed on 2026-11-28: across the fleet it fired 270 times in 30 days for 8 asks and no
+# merged fix, and the platform already files a fix when `main` is red.
 schedules:
-  - name: health
-    days: [mon, tue, wed, thu, fri, sat, sun]
-    hours_utc: [5]
-    brief_file: .dz/schedules/health.md
   # Monthly: the first Monday of the month (UTC days 1-7).
   - name: improve
     days: [mon]

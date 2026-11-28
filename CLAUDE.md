@@ -26,14 +26,15 @@ Run from the repository root.
 
 | Command | Purpose |
 | --- | --- |
-| `bun install` or `./bin/setup` | Install dependencies |
+| `./bin/setup` | Install dependencies from a fresh clone (Bun pinned in `.bun-version`, which CI reads too) |
+| `bun test tests/<file>.test.ts` | Run one test file (the inner loop) |
 | `bun test` | Run tests |
 | `bun run lint` | Check `src/` and `tests/` with Biome; run before committing |
 | `bun run lint:fix` | Apply Biome fixes |
 | `bun run build` | Typecheck and emit `dist/` with TypeScript |
 | `bun run dev -- ...` | Run the CLI in development |
 | `./bin/dev` | Run the development CLI |
-| `./bin/check` | Run lint and tests; does not run the build or typecheck |
+| `./bin/check` | The gate CI runs: lint, tests, then typecheck and build (`bun run build`). Run before every push |
 
 ## Structure
 
